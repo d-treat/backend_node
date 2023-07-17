@@ -1,58 +1,58 @@
-const express = require("express")
-const {contactModel} = require("../models/contactModel")
-const {contactValidation} = require("../utils/contactValidation")
+const {db} = require('../utils/database')
+const {Appointment} = require("../models/appointmentSchema")
+const {validateAppointment} = require("../models/appointmentSchema")
 
 
-module.exports.createContact = () => {
+module.exports.createAppointment = () => {
     return async (req, res, next) => {
   
-      const {error} = contactValidation(req.body)
+      const {error} = validateAppointment(req.body)
       if(error) return res.send(error.details[0].message)
     try {
-       const contact = new contactModel({
-          name: req.body.name,
-          email:req.body.email,
-          subject:req.body.subject,
-          category: req.body.category,
+       const appointment = new Appointment({
+          appointmentName: req.body.appointmentName,
+          appointmentTime:req.body.appointmentTime,
+          doctor1:req.body.doctor1,
+          doctor2: req.body.doctor2,
          
         });
   
-        await contact.save();
-        res.send(contact).status(201);
+        await appointment.save();
+        res.send(appointment).status(201);
       } catch (error) {
         console.error(error);
       }
     };
   };
-  module.exports.getContactById = () => {
+  module.exports.getAppointmentById = () => {
     return async (req, res) => {
       console.log(req.params);
       try {
-        const contact = await contactModel.findById(req.params._id);
-        res.status(200).send(contact);
+        const appointment = await Appointment.findById(req.params._id);
+        res.status(200).send(appointment);
       } catch (error) {
         console.log(error);
       }
     };
   };
   
-  module.exports.getAllContacts = () => {
+  module.exports.getAllAppointment = () => {
     return async (req, res) => {
       try {
-        const contacts = await contactModel.find();
-        return res.send(contacts).status(200);
+        const appointment = await Appointment.find();
+        return res.send(appointment).status(200);
       } catch (error) {
         console.log(error);
       }
     };
   };
   
-  module.exports.updateContact= () => {
+  module.exports.updateAppointment= () => {
     return async (req, res) => {
      try {
-       contact = await contactModel.findByIdAndUpdate(req.params._id, req.body);
-       res.send("contacts updated").status(201);
-     return await contact.save(); 
+       appointment = await Appointment.findByIdAndUpdate(req.params._id, req.body);
+       res.send("appointment updated").status(201);
+     return await appointment.save(); 
   
      } catch (error) {
       console.log(error);
@@ -61,11 +61,11 @@ module.exports.createContact = () => {
     };
   };
   
-  module.exports.deleteContact = () => {
+  module.exports.deleteAppointment = () => {
     return async (req, res) => {
       try {
-        contact = await contactModel.findByIdAndDelete(req.params.id);
-        return res.send("contact deleted");
+        appointment = await Appointment.findByIdAndDelete(req.params.id);
+        return res.send("appointment deleted");
       } catch (error) {
         console.log(error);
       }
