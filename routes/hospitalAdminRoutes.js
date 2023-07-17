@@ -5,7 +5,7 @@ const {
   getHospitalAdminById,
   getAllHospitalAdmins,
   updateHospitalAdmin,
-  deleteHospitalAdmin
+  deleteHospitalAdminById
 } = require('../controllers/hospitalAdminController');
 const { validateHospitalAdmin } = require('../models/hospitalAdminSchema');
 
@@ -22,6 +22,6 @@ router.get('/hospital-admin', getAllHospitalAdmins);
 router.put('/hospital-admin/:id', updateHospitalAdmin);
 
 // Delete a hospital admin by ID
-router.delete('/hospital-admin/:id', deleteHospitalAdmin);
+router.delete('/hospital-admin/:id', deleteHospitalAdminById);
 
 module.exports = router;

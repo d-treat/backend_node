@@ -14,7 +14,7 @@ const imageSchema = new mongoose.Schema({
   });
 
   module.exports.Image  =  mongoose.model('Image', imageSchema)
-  const Joi = require('joi');
+ 
 
 const validateImage = (image) => {
   const schema = Joi.object({

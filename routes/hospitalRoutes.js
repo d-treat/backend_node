@@ -5,7 +5,7 @@ const {
   getHospitalById,
   getAllHospitals,
   updateHospital,
-  deleteHospital
+  deleteHospitalById
 } = require('../controllers/hospitalController');
 const { validateHospital } = require('../models/hospitalSchema');
 
@@ -22,6 +22,6 @@ router.get('/hospital', getAllHospitals);
 router.put('/hospital/:id', updateHospital);
 
 // Delete a hospital by ID
-router.delete('/hospital/:id', deleteHospital);
+router.delete('/hospital/:id', deleteHospitalById);
 
 module.exports = router;

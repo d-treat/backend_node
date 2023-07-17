@@ -1,5 +1,5 @@
-const HospitalAdmin = require('../models/hospitalAdmin');
-const validateHospitalAdmin = require('../validation/hospitalAdminValidation');
+const HospitalAdmin = require('../models/hospitalAdminSchema');
+const validateHospitalAdmin = require('../models/hospitalAdminSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
 
 cloudinary.config({
@@ -9,7 +9,7 @@ cloudinary.config({
 });
 
 // Save a new hospital admin
-const saveHospitalAdmin = async (req, res) => {
+const createHospitalAdmin = async (req, res) => {
   try {
     const { error } = validateHospitalAdmin(req.body);
     if (error) {
@@ -135,7 +135,7 @@ const deleteHospitalAdminById = async (req, res) => {
 };
 
 module.exports = {
-  saveHospitalAdmin,
+  createHospitalAdmin,
   getAllHospitalAdmins,
   getHospitalAdminById,
   updateHospitalAdmin,

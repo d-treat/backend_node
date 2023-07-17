@@ -1,6 +1,6 @@
 const cloudinary = require('cloudinary').v2;
-const Image = require('../models/image');
-const validateImage = require('../validation/imageValidation');
+const Image = require('../models/ImageSchema');
+const validateImage = require('../models/ImageSchema');
 
 cloudinary.config({
     cloud_name: process.env.Cloud_Name,

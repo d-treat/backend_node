@@ -1,4 +1,4 @@
-const Doctor = require('../models/doctor');
+const Doctor = require('../models/doctorSchema');
 const {validateDoctor} = require('../models/doctorSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
 
@@ -9,7 +9,7 @@ cloudinary.config({
 });
 
 // Save a new doctor
-const saveDoctor = async (req, res) => {
+const createDoctor = async (req, res) => {
   try {
     const { error } = validateDoctor(req.body);
     if (error) {
@@ -120,7 +120,7 @@ const getAllDoctors = async (req, res) => {
 };
 
 // Delete a doctor by ID
-const deleteDoctorById = async (req, res) => {
+const deleteDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.findByIdAndDelete(req.params.id);
     if (!doctor) {
@@ -134,9 +134,9 @@ const deleteDoctorById = async (req, res) => {
 };
 
 module.exports = {
-  saveDoctor,
+  createDoctor,
   updateDoctor,
   getDoctorById,
   getAllDoctors,
-  deleteDoctorById
+  deleteDoctor
 };

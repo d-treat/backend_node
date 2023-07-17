@@ -7,7 +7,6 @@ const  Address = require("../models/addressSchema")
 
 
 const router = express.Router();
-// registerDefinition(router, { tags: 'Carts', mappedSchema: 'cartSchema', basePath: '/cart' });
 
 router.post('/address',createAddress());
 router.get('/address/:_id',getAddressById())

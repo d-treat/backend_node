@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const joi = require('joi');
-const Address = require('../models/appointmentSchema');
 
 const doctorSchema = new mongoose.Schema({
   fullName: {
@@ -10,12 +9,7 @@ const doctorSchema = new mongoose.Schema({
   country: {
     type: String,
     required: true,
-    validate: {
-      validator: function (value) {
-        return this.address.country === value;
-      },
-      message: 'The country must match the country from the address'
-    }
+  
   },
   phoneNumber: {
     type: String,
@@ -51,26 +45,27 @@ const doctorSchema = new mongoose.Schema({
   }
 });
 
-doctorSchema.add({ address: addressSchema });
-module.exports.Doctor = mongoose.model('Doctor',doctorSchema);
+module.exports.Doctor = mongoose.model('Doctor', doctorSchema);
 
 const validateDoctor = (doctor) => {
-    const schema = Joi.object({
-        fullName: Joi.string().required().label('fullName'),
-      country: Joi.string().required().label('Country'),
-      phoneNumber: Joi.string().required().label('Phone Number'),
-      organization: Joi.string().label('Organization'),
-      email: Joi.string().email().required().label('Email'),
-      password: Joi.string().required().label('Password'),
-      gender: Joi.string().valid('male', 'female', 'other').required().label('Gender'),
-      speciality: Joi.string().required().label('Speciality'),
-      description: Joi.string().label('Description'),
-      cv: Joi.object({
-        data: Joi.binary().required().label('CV Data'),
-        contentType: Joi.string().required().label('CV Content Type')
-      }).required().label('CV')
-    });
-  
-    return schema.validate(doctor);
-  };
-  module.exports.validateDoctor = validateDoctor;
+  const schema = joi.object({
+    fullName: joi.string().required().label('fullName'),
+    country: joi.string().required().label('Country'),
+    phoneNumber: joi.string().required().label('Phone Number'),
+    organization: joi.string().label('Organization'),
+    email: joi.string().email().required().label('Email'),
+    password: joi.string().required().label('Password'),
+    gender: joi.string().valid('male', 'female', 'other').required().label('Gender'),
+    speciality: joi.string().required().label('Speciality'),
+    description: joi.string().label('Description'),
+    cv: joi.object({
+      data: joi.binary().required().label('CV Data'),
+      contentType: joi.string().required().label('CV Content Type')
+    }).required().label('CV'),
+    address: joi.string().required().label('Address')
+  });
+
+  return schema.validate(doctor);
+};
+
+module.exports.validateDoctor = validateDoctor;

@@ -25,7 +25,7 @@ module.exports.createContact = () => {
       }
     };
   };
-  module.exports.getContacttById = () => {
+  module.exports.getContactById = () => {
     return async (req, res) => {
       console.log(req.params);
       try {

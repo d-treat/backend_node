@@ -3,7 +3,7 @@ const router = express.Router();
 const {
   createContact,
   getContactById,
-  getAllContacts,
+  getAllContact,
   updateContact,
   deleteContact
 } = require('../controllers/contactController');
@@ -16,7 +16,7 @@ router.post('/contact', createContact);
 router.get('/contact/:id', getContactById);
 
 // Get all contacts
-router.get('/contact', getAllContacts);
+router.get('/contacts', getAllContact);
 
 // Update a contact by ID
 router.put('/contact/:id', updateContact);

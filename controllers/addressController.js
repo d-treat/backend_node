@@ -1,6 +1,6 @@
 const {db} = require('../utils/database')
 const {Address} = require("../models/addressSchema")
-const {validateProduct}  = require("/models/addressSchema")
+const {validateProduct}  = require("../models/addressSchema")
 
 module.exports.createAddress = () =>{
     return async(req,res,next) =>{

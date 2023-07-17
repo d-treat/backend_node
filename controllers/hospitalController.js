@@ -2,7 +2,7 @@ const Hospital = require('../models/hospitalSchema');
 const validateHospital = require('../models/hospitalSchema');
 
 // Save a new hospital
-const saveHospital = async (req, res) => {
+const createHospital = async (req, res) => {
   try {
     const { error } = validateHospital(req.body);
     if (error) {
@@ -76,7 +76,7 @@ const deleteHospitalById = async (req, res) => {
 };
 
 module.exports = {
-  saveHospital,
+  createHospital,
   updateHospital,
   getHospitalById,
   getAllHospitals,

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
 
 const hospitalAdminSchema = new mongoose.Schema({
   fullName: {
@@ -21,7 +22,7 @@ const hospitalAdminSchema = new mongoose.Schema({
   proof: {
     data: Buffer,
     contentType: String,
-    required: true
+    required: false
   },
   organization: {
     type: String,
@@ -35,23 +36,23 @@ const hospitalAdminSchema = new mongoose.Schema({
 
 const HospitalAdmin = mongoose.model('HospitalAdmin', hospitalAdminSchema);
 
-module.exports.HospitalAdmin = hospitalAdminSchema;
+module.exports = HospitalAdmin;
 
 const validateHospitalAdmin = (hospitalAdmin) => {
-    const schema = Joi.object({
-      fullName: Joi.string().required().label('Full Name'),
-      phoneNumber: Joi.string().required().label('Phone Number'),
-      email: Joi.string().email().required().label('Email'),
-      message: Joi.string().label('Message'),
-      proof: Joi.object({
-        data: Joi.binary().required().label('Proof Data'),
-        contentType: Joi.string().required().label('Proof Content Type')
-      }).label('Proof'),
-      organization: Joi.string().label('Organization'),
-      password: Joi.string().required().label('Password')
-    });
-  
-    return schema.validate(hospitalAdmin);
-  };
-  
-  module.exports = validateHospitalAdmin;
+  const schema = Joi.object({
+    fullName: Joi.string().required().label('Full Name'),
+    phoneNumber: Joi.string().required().label('Phone Number'),
+    email: Joi.string().email().required().label('Email'),
+    message: Joi.string().label('Message'),
+    proof: Joi.object({
+      data: Joi.binary().required().label('Proof Data'),
+      contentType: Joi.string().required().label('Proof Content Type')
+    }).label('Proof'),
+    organization: Joi.string().label('Organization'),
+    password: Joi.string().required().label('Password')
+  });
+
+  return schema.validate(hospitalAdmin);
+};
+
+module.exports.validateHospitalAdmin = validateHospitalAdmin;
