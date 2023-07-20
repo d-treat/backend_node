@@ -1,6 +1,13 @@
 const cloudinary = require('cloudinary').v2;
-const Image = require('../models/ImageSchema');
-const validateImage = require('../models/ImageSchema');
+// const Image = require('../models/ImageSchema');
+const {Image,validateImage} = require('../models/ImageSchema');
+const multer = require("multer");
+const upload = multer({ dest: "./dtreat_images" });
+const fs = require("fs");
+const path = require("path");
+const { result } = require("@hapi/joi/lib/base");
+let streamifier = require("streamifier");
+const { log } = require('console');
 
 cloudinary.config({
     cloud_name: process.env.Cloud_Name,
@@ -8,6 +15,26 @@ cloudinary.config({
     api_secret:process.env.Api_Secret
   });
 
+  let uploadFromBuffer = (req) => {
+  return new Promise((resolve, reject) => {
+    let cld_upload_stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "IMAGE",
+      },
+      (error, result) => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject(error);
+        }
+      }
+    );
+
+    streamifier
+      .createReadStream(req.files.image.data) // Change this line to req.files.cv.data
+      .pipe(cld_upload_stream);
+  });
+};
 // Create a new image
 const createImage = async (req, res) => {
   try {
@@ -16,17 +43,18 @@ const createImage = async (req, res) => {
       return res.status(400).json({ error: error.details[0].message });
     }
 
-    
+     const result = await uploadFromBuffer(req);
 
     const newImage = new Image({
-      imageName,
-      imageUrl
+      imageName:req.params.imageName,
+      image:result.url
     });
 
     await newImage.save();
 
     return res.status(201).json({ image: newImage });
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({ error: 'An error occurred while creating the image' });
   }
 };

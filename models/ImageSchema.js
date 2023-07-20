@@ -8,7 +8,7 @@ const imageSchema = new mongoose.Schema({
       required: true
     },
     image: {
-      type: Buffer,
+      type: String,
       required: true
     }
   });
@@ -18,8 +18,8 @@ const imageSchema = new mongoose.Schema({
 
 const validateImage = (image) => {
   const schema = Joi.object({
-    imageName: Joi.string().required().label('Image Name'),
-    image: Joi.any().required().label('Image')
+    imageName: Joi.string().required().label('imageName'),
+    image: Joi.string().required().label('image')
   });
 
   return schema.validate(image);
