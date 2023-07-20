@@ -1,6 +1,14 @@
 const Doctor = require('../models/doctorSchema');
-// const {validateDoctor} = require('../models/doctorSchema');
+const {validateDoctor} = require('../models/doctorSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
+const multer = require("multer");
+const upload = multer({ dest: "./dtreat_images" });
+var type = upload.single("cv");
+const fs = require("fs");
+const path = require("path");
+const { result } = require("@hapi/joi/lib/base");
+let streamifier = require("streamifier");
+const { log } = require('console');
 
 cloudinary.config({
   cloud_name: process.env.Cloud_Name,
@@ -8,97 +16,51 @@ cloudinary.config({
   api_secret:process.env.Api_Secret
 });
 
-// Save a new doctor
-// const createDoctor = async (req, res) => {
-//   try {
-//     const { error } = validateDoctor(req.body);
-//     if (error) {
-//       return res.status(400).json({ error: error.details[0].message });
-//     }
+let uploadFromBuffer = (req) => {
+  return new Promise((resolve, reject) => {
+    let cld_upload_stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "CV",
+      },
+      (error, result) => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject(error);
+        }
+      }
+    );
 
-//     const { name, country, phoneNumber, organization, email, password, gender, speciality, description } = req.body;
-
-//      // Assuming the CV file is uploaded using multer or similar middleware
-
-//     // Upload the CV file to Cloudinary
-//     const result = await cloudinary.uploader.upload(cvFile.path);
-
-//     const cvLink = result.secure_url;
-
-//     const doctor = new Doctor({
-//       fullName,
-//       country,
-//       phoneNumber,
-//       organization,
-//       email,
-//       password,
-//       gender,
-//       speciality,
-//       description,
-//       cv: cvLink
-//     });
-
-//     await doctor.save();
-
-//     return res.status(201).json({ doctor });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
+    streamifier
+      .createReadStream(req.files.cv.data) // Change this line to req.files.cv.data
+      .pipe(cld_upload_stream);
+  });
+};
 
 
-const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
-
-// Multer configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Destination folder for storing the uploaded file
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = `${Date.now()}-${uuidv4()}`; // Add unique suffix to avoid file name conflicts
-    const fileExtension = file.originalname.split('.').pop(); // Extract file extension
-    const fileName = `${uniqueSuffix}.${fileExtension}`; // Construct the final file name
-    cb(null, fileName);
-  }
-});
-
-const upload = multer({ storage: storage });
 
 const createDoctor = async (req, res) => {
+  // console.log(req);
   try {
-    // const { error } = validateDoctor(req.body);
-    // if (error) {
-    //   return res.status(400).json({ error: error.details[0].message });
-    // }
-
-    const { fullName, country, phoneNumber, organization, email, password, gender, speciality, description } = req.body;
-
-
-
-    const cvFile = req.file;
-    if (!cvFile) {
-      console.log("req.file:", req.file); // Debug statement to check if req.file is present
-      return res.status(400).json({ error: "CV file is missing in the request" });
+    const { error } = validateDoctor(req.body); // Validate the doctor object
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message }); // Return the validation error if present
     }
+    const result = await uploadFromBuffer(req);
+      // console.log(result);
 
-    // Upload the CV file to Cloudinary
-    const result = await cloudinary.uploader.upload(cvFile.path);
-
-    const cvLink = result.secure_url;
-
-    const doctor = new Doctor({
-      fullName,
-      country,
-      phoneNumber,
-      organization,
-      email,
-      password,
-      gender,
-      speciality,
-      description,
-      cv: cvLink
+    
+const doctor = new Doctor({
+      fullName:req.body.fullName,
+      country:req.body.country,
+      phoneNumber:req.body.phoneNumber,
+      organization:req.body.organization,
+      email:req.body.email,
+      password:req.body.password,
+      gender:req.body.gender,
+      speciality:req.body.speciality,
+      description:req.body.description,
+      cv: result.url,
     });
 
     await doctor.save();
@@ -110,8 +72,6 @@ const createDoctor = async (req, res) => {
   }
 };
 
-// Route handler for creating a doctor
-// router.post('/doctor', upload.single('cv'), createDoctor);
 
 // Update a doctor
 const updateDoctor = async (req, res) => {

@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ dest: "./dtreat_images" });
+
 const {
   createDoctor,
   getDoctorById,
@@ -10,8 +13,9 @@ const {
 
 router.post('/doctor', createDoctor);
 router.get('/doctor/:id', getDoctorById);
-router.get('/doctor', getAllDoctors);
+router.get('/doctors', getAllDoctors);
 router.put('/doctor/:id', updateDoctor);
 router.delete('/doctor/:id', deleteDoctor);
 
 module.exports = router;
+

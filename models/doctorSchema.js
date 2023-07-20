@@ -40,24 +40,26 @@ const doctorSchema = new mongoose.Schema({
     required: true
   },
   cv: {
-    data: Buffer,
-    contentType: String
+    type:String,
+    required:true
   }
 });
 
-module.exports.Doctor = mongoose.model('Doctor', doctorSchema);
+const Doctor = mongoose.model('Doctor', doctorSchema);
+
+module.exports = Doctor;
 
 const validateDoctor = (doctor) => {
   const schema = joi.object({
     fullName: joi.string().required().label('fullName'),
-    country: joi.string().required().label('Country'),
-    phoneNumber: joi.string().required().label('Phone Number'),
-    organization: joi.string().label('Organization'),
+    country: joi.string().required().label('country'),
+    phoneNumber: joi.string().required().label('phoneNumber'),
+    organization: joi.string().label('organization'),
     email: joi.string().email().required().label('email'),
-    password: joi.string().required().label('Password'),
-    gender: joi.string().valid('male', 'female', 'other').required().label('Gender'),
-    speciality: joi.string().required().label('Speciality'),
-    description: joi.string().label('Description'),
+    password: joi.string().required().label('password'),
+    gender: joi.string().valid('male', 'female', 'other').required().label('gender'),
+    speciality: joi.string().required().label('speciality'),
+    description: joi.string().label('description'),
   
   });
 
