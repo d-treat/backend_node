@@ -16,12 +16,7 @@ const createImage = async (req, res) => {
       return res.status(400).json({ error: error.details[0].message });
     }
 
-    const { imageName, image } = req.body;
-
-    // Upload the image to Cloudinary
-    const result = await cloudinary.uploader.upload(image.path);
-
-    const imageUrl = result.secure_url;
+    
 
     const newImage = new Image({
       imageName,

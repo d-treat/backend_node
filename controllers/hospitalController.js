@@ -1,5 +1,6 @@
-const Hospital = require('../models/hospitalSchema');
-const validateHospital = require('../models/hospitalSchema');
+const mongoose = require('mongoose');
+const { Hospital, validateHospital } = require('../models/hospitalSchema');
+
 
 // Save a new hospital
 const createHospital = async (req, res) => {
@@ -9,11 +10,16 @@ const createHospital = async (req, res) => {
       return res.status(400).json({ error: error.details[0].message });
     }
 
-    const hospital = new Hospital(req.body);
-    await hospital.save();
+    const hospital = new Hospital({
+      name:req.body.name,
+      country:req.body.country,
+      doctorNumber:req.body.doctorNumber
+    })
 
+    await hospital.save()
     return res.status(201).json({ hospital });
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({ error: 'An error occurred while saving the hospital' });
   }
 };

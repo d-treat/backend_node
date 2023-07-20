@@ -10,7 +10,7 @@ const {
 
 router.post('/hospital', createHospital);
 router.get('/hospital/:id', getHospitalById);
-router.get('/hospital', getAllHospitals);
+router.get('/hospitals', getAllHospitals);
 router.put('/hospital/:id', updateHospital);
 router.delete('/hospital/:id', deleteHospitalById);
 

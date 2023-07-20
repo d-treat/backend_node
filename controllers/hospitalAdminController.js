@@ -1,6 +1,12 @@
 const HospitalAdmin = require('../models/hospitalAdminSchema');
 const validateHospitalAdmin = require('../models/hospitalAdminSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
+const multer = require("multer");
+const upload = multer({ dest: "./dtreat_images" });
+const fs = require("fs");
+const path = require("path");
+const { result } = require("@hapi/joi/lib/base");
+let streamifier = require("streamifier");
 
 cloudinary.config({
   cloud_name: process.env.Cloud_Name,
@@ -8,6 +14,26 @@ cloudinary.config({
   api_secret:process.env.Api_Secret
 });
 
+let uploadFromBuffer = (req) => {
+  return new Promise((resolve, reject) => {
+    let cld_upload_stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "PROOF",
+      },
+      (error, result) => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject(error);
+        }
+      }
+    );
+
+    streamifier
+      .createReadStream(req.files.proof.data) // Change this line to req.files.cv.data
+      .pipe(cld_upload_stream);
+  });
+};
 // Save a new hospital admin
 const createHospitalAdmin = async (req, res) => {
   try {
@@ -15,27 +41,17 @@ const createHospitalAdmin = async (req, res) => {
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
-
-    const { fullName, phoneNumber, email, message, organization, password } = req.body;
-
-    const proofFile = req.file; // Assuming the proof file is uploaded using multer or similar middleware
-
-    // Upload the proof file to Cloudinary
-    const result = await cloudinary.uploader.upload(proofFile.path);
-
-    const proof = {
-      url: result.secure_url,
-      publicId: result.public_id
-    };
+    const result = await uploadFromBuffer(req);
+    
 
     const hospitalAdmin = new HospitalAdmin({
-      fullName,
-      phoneNumber,
-      email,
-      message,
-      proof,
-      organization,
-      password
+      fullName:req.body.fullName,
+      phoneNumber:req.body.phoneNumber,
+      email:req.body.email,
+      message:req.body.message,
+      proof:result.url,
+      organization:req.body.organization,
+      password:req.body.password
     });
 
     await hospitalAdmin.save();

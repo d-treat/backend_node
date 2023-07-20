@@ -20,8 +20,7 @@ const hospitalAdminSchema = new mongoose.Schema({
     required: true
   },
   proof: {
-    data: Buffer,
-    contentType: String,
+    type: String,
     required: false
   },
   organization: {
