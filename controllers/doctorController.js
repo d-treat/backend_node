@@ -1,5 +1,5 @@
 const Doctor = require('../models/doctorSchema');
-const {validateDoctor} = require('../models/doctorSchema');
+// const {validateDoctor} = require('../models/doctorSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
 
 cloudinary.config({
@@ -9,16 +9,79 @@ cloudinary.config({
 });
 
 // Save a new doctor
+// const createDoctor = async (req, res) => {
+//   try {
+//     const { error } = validateDoctor(req.body);
+//     if (error) {
+//       return res.status(400).json({ error: error.details[0].message });
+//     }
+
+//     const { name, country, phoneNumber, organization, email, password, gender, speciality, description } = req.body;
+
+//      // Assuming the CV file is uploaded using multer or similar middleware
+
+//     // Upload the CV file to Cloudinary
+//     const result = await cloudinary.uploader.upload(cvFile.path);
+
+//     const cvLink = result.secure_url;
+
+//     const doctor = new Doctor({
+//       fullName,
+//       country,
+//       phoneNumber,
+//       organization,
+//       email,
+//       password,
+//       gender,
+//       speciality,
+//       description,
+//       cv: cvLink
+//     });
+
+//     await doctor.save();
+
+//     return res.status(201).json({ doctor });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
+
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+
+// Multer configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Destination folder for storing the uploaded file
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = `${Date.now()}-${uuidv4()}`; // Add unique suffix to avoid file name conflicts
+    const fileExtension = file.originalname.split('.').pop(); // Extract file extension
+    const fileName = `${uniqueSuffix}.${fileExtension}`; // Construct the final file name
+    cb(null, fileName);
+  }
+});
+
+const upload = multer({ storage: storage });
+
 const createDoctor = async (req, res) => {
   try {
-    const { error } = validateDoctor(req.body);
-    if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+    // const { error } = validateDoctor(req.body);
+    // if (error) {
+    //   return res.status(400).json({ error: error.details[0].message });
+    // }
+
+    const { fullName, country, phoneNumber, organization, email, password, gender, speciality, description } = req.body;
+
+
+
+    const cvFile = req.file;
+    if (!cvFile) {
+      console.log("req.file:", req.file); // Debug statement to check if req.file is present
+      return res.status(400).json({ error: "CV file is missing in the request" });
     }
-
-    const { name, country, phoneNumber, organization, email, password, gender, speciality, description } = req.body;
-
-    const cvFile = req.file; // Assuming the CV file is uploaded using multer or similar middleware
 
     // Upload the CV file to Cloudinary
     const result = await cloudinary.uploader.upload(cvFile.path);
@@ -26,7 +89,7 @@ const createDoctor = async (req, res) => {
     const cvLink = result.secure_url;
 
     const doctor = new Doctor({
-      name,
+      fullName,
       country,
       phoneNumber,
       organization,
@@ -42,9 +105,13 @@ const createDoctor = async (req, res) => {
 
     return res.status(201).json({ doctor });
   } catch (error) {
-    return res.status(500).json({ error: 'An error occurred while saving the doctor' });
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// Route handler for creating a doctor
+// router.post('/doctor', upload.single('cv'), createDoctor);
 
 // Update a doctor
 const updateDoctor = async (req, res) => {

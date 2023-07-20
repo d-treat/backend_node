@@ -1,18 +1,17 @@
-const express  = require("express")
-const {createAddress,getAddressById,getAllAddress,updateAddress,deleteAddress} = require("../controllers/addressController")
-const {validateAddress} = require("../models/addressSchema")
-const  Address = require("../models/addressSchema")
-// const registerDefinition  =  require  ('swaggify');
-
-
-
+const express = require('express');
 const router = express.Router();
+const {
+  createAddress,
+  getAddressById,
+  getAllAddress,
+  updateAddress,
+  deleteAddress
+} = require("../controllers/addressController");
 
-router.post('/address',createAddress());
-router.get('/address/:_id',getAddressById())
-router.get('/address',getAllAddress())
-router.put('/address/:_id',updateAddress())
-router.delete('/address/:_id',deleteAddress())
+router.post('/address', createAddress);
+router.get('/address/:id', getAddressById);
+router.get('/address', getAllAddress);
+router.put('/address/:id', updateAddress);
+router.delete('/address/:id', deleteAddress);
 
-
-module.exports.addressRoutes  = router
+module.exports = router;

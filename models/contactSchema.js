@@ -32,8 +32,8 @@ const validateContact = (contact) => {
     const Schema = joi.object({
         firstName:joi.string().required().label("firstName"),
         lastName:joi.string().required().label("lastName"),
-        email:joi.string().required().label("email"),
-        phoneNumber:joi.string().email().required().label("phoneNumber"),
+        email:joi.string().email().required().label("email"),
+        phoneNumber:joi.string().required().label("phoneNumber"),
         message:joi.string().required().label("message")
     })
     return Schema.validate(contact)

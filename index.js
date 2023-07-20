@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { db } = require('./utils/database.js');
+const middlewareSetup = require('./middleware/middleware.js');
 
 // Import the route files
 const addressRoutes = require('./routes/addressRoutes');
@@ -15,12 +16,12 @@ const imageRoutes = require('./routes/imageRoutes');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
 const PORT = process.env.PORT || 4040;
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 // Use the routes
 app.use(addressRoutes);
@@ -38,7 +39,16 @@ function start() {
 }
 
 app.get('/', (req, res) => {
-  return res.send('Hello world...');
+  res.send(`
+    <html>
+      <head>
+        <link rel="stylesheet" type="text/css" href="./public/css/styles.css">
+      </head>
+      <body>
+        <h1 class="greeting">Welcome to D_treat Backend!</h1>
+      </body>
+    </html>
+  `);
 });
 
 app.listen(PORT, () => {

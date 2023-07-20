@@ -53,16 +53,12 @@ const validateDoctor = (doctor) => {
     country: joi.string().required().label('Country'),
     phoneNumber: joi.string().required().label('Phone Number'),
     organization: joi.string().label('Organization'),
-    email: joi.string().email().required().label('Email'),
+    email: joi.string().email().required().label('email'),
     password: joi.string().required().label('Password'),
     gender: joi.string().valid('male', 'female', 'other').required().label('Gender'),
     speciality: joi.string().required().label('Speciality'),
     description: joi.string().label('Description'),
-    cv: joi.object({
-      data: joi.binary().required().label('CV Data'),
-      contentType: joi.string().required().label('CV Content Type')
-    }).required().label('CV'),
-    address: joi.string().required().label('Address')
+  
   });
 
   return schema.validate(doctor);

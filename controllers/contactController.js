@@ -3,12 +3,15 @@ const {Contact} = require("../models/contactSchema")
 const {validateContact} = require("../models/contactSchema")
 
 
-module.exports.createContact = () => {
-    return async (req, res, next) => {
+module.exports.createContact = async(req,res) => {
+ 
   
-      const {error} = validateContact(req.body)
-      if(error) return res.send(error.details[0].message)
     try {
+      const { error } = validateContact(req.body);
+      if (error) {
+        throw new Error(error.details[0].message);
+      }
+
        const contact = new Contact({
           firstName: req.body.firstName,
           lastName:req.body.lastName,
@@ -20,56 +23,57 @@ module.exports.createContact = () => {
   
         await contact.save();
         res.send(contact).status(201);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
       }
     };
-  };
-  module.exports.getContactById = () => {
-    return async (req, res) => {
-      console.log(req.params);
-      try {
-        const contact = await Contact.findById(req.params._id);
-        res.status(200).send(contact);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  };
   
-  module.exports.getAllContact = () => {
-    return async (req, res) => {
-      try {
-        const contact = await Contact.find();
-        return res.send(contact).status(200);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  };
   
-  module.exports.updateContact= () => {
-    return async (req, res) => {
-     try {
-       contact = await Contact.findByIdAndUpdate(req.params._id, req.body);
-       res.send("contact updated").status(201);
-     return await contact.save(); 
+module.exports.getContactById = async (req, res) => {
+  try {
+    const contact = await Contact.findById(req.params.id);
+    res.status(200).send(contact);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
   
-     } catch (error) {
+  
+  module.exports.getAllContact = async(req,res) => {
+    try {
+      const contact = await Contact.find();
+      return res.status(200).send(contact);
+    } catch (error) {
       console.log(error);
-     }
-     
-    };
+      return res.status(500).send("Internal Server Error");
+    }
   };
   
-  module.exports.deleteContact = () => {
-    return async (req, res) => {
-      try {
-        contact = await Contact.findByIdAndDelete(req.params.id);
-        return res.send("contact deleted");
-      } catch (error) {
-        console.log(error);
+  module.exports.updateContact= async(req,res) => {
+    try {
+      const contact = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (!contact) {
+        return res.status(404).send("contact not found");
       }
-    };
+      return res.send("contact updated").status(200);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Internal Server Error");
+    }
+  };
+  
+  module.exports.deleteContact = async(req,res) => {
+    try {
+      const contact = await Contact.findByIdAndDelete(req.params.id);
+      if (!contact) {
+        return res.status(404).send("contact not found");
+      }
+      return res.send("contact deleted").status(200);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Internal Server Error");
+    }
   };
   

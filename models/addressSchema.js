@@ -10,11 +10,7 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    state:{
-        type: String,
-        required: true,
-    },
-    postalCode:{
+  postalCode:{
         type: String,
         required: true,
     },
@@ -30,7 +26,6 @@ const validateAddress = (address) => {
     const Schema = joi.object ({
         street:joi.string().required().label('street'),	
         city:joi.string().required().label('city'),
-        state:joi.string().required().label('state'),
         postalCode:joi.string().required().label('postalCode'),
         country:joi.string().required().label('country')
 
