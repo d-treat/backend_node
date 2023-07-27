@@ -1,4 +1,5 @@
 const HospitalAdmin = require('../models/hospitalAdminSchema');
+const Doctor  = require('../models/DoctorSchema');
 const validateHospitalAdmin = require('../models/hospitalAdminSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
 const multer = require("multer");
@@ -149,6 +150,16 @@ const deleteHospitalAdminById = async (req, res) => {
     return res.status(500).json({ error: 'An error occurred while deleting the hospital admin' });
   }
 };
+
+
+const sendInvite = async (req, res) => {
+  try {
+    // const 
+  }catch {
+
+  }
+}
+
 
 module.exports = {
   createHospitalAdmin,
