@@ -5,10 +5,12 @@ const {
   getHospitalAdminById,
   getAllHospitalAdmins,
   updateHospitalAdmin,
-  deleteHospitalAdminById
+  deleteHospitalAdminById,
+  sendInvite
 } = require('../controllers/hospitalAdminController');
 
 router.post('/hospital-admin', createHospitalAdmin);
+router.post('/send-invite',sendInvite);
 router.get('/hospital-admin/:id', getHospitalAdminById);
 router.get('/hospital-admin', getAllHospitalAdmins);
 router.put('/hospital-admin/:id', updateHospitalAdmin);

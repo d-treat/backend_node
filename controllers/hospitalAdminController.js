@@ -1,5 +1,5 @@
 const HospitalAdmin = require('../models/hospitalAdminSchema');
-const Doctor  = require('../models/DoctorSchema');
+const Doctor = require('../models/doctorSchema');
 const validateHospitalAdmin = require('../models/hospitalAdminSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
 const multer = require("multer");
@@ -7,7 +7,12 @@ const upload = multer({ dest: "./dtreat_images" });
 const fs = require("fs");
 const path = require("path");
 const { result } = require("@hapi/joi/lib/base");
+const nodemailer  = require("nodemailer");
 let streamifier = require("streamifier");
+const jwt = require("jsonwebtoken");
+const bcryptjs = require('bcryptjs')
+const cookie = require('cookie-parser');
+const { log } = require('console');
 
 cloudinary.config({
   cloud_name: process.env.Cloud_Name,
@@ -54,9 +59,15 @@ const createHospitalAdmin = async (req, res) => {
       organization:req.body.organization,
       password:req.body.password
     });
-
+    console.log("before token");
+            let jwt = jwt.sign({_id:user_id},process.env.SECRET,{
+                expiresIn:"1h"
+            })
+    
+    const salt  = await bcryptjs.genSalt(10)
+    hospitalAdmin.password = await bcryptjs.hash(hospitalAdmin.password,salt)
     await hospitalAdmin.save();
-
+    res.cookie('userdata',hospitalAdmin.email)
     return res.status(201).json({ hospitalAdmin });
   } catch (error) {
     return res.status(500).json({ error: 'An error occurred while saving the hospital admin' });
@@ -152,19 +163,115 @@ const deleteHospitalAdminById = async (req, res) => {
 };
 
 
+;
+
+
+
+// const nodemailer = require('nodemailer');
+
+// ... other code ...
+
 const sendInvite = async (req, res) => {
   try {
-    // const 
-  }catch {
+      // Retrieve the doctorId or email from the request body
+      const { fullName, email } = req.body;
 
+      // Ensure that either doctorId or email is provided in the request body
+      if (!fullName && !email) {
+        return res.status(400).json({ error: 'Doctor ID or email is required to send an invite' });
+      }
+
+    // Find the doctor in the database based on either doctorId or email
+    const doctor = fullName ? await Doctor.findOne({ fullName: fullName }) : await Doctor.findOne({ email });
+
+
+    // Check if the doctor exists and has a valid email (optional, depending on your schema design)
+    if (!doctor || !doctor.email) {
+      return res.status(404).json({ error: 'Doctor not found or does not have a valid email' });
+    }
+
+    // Generate a random token or use any unique identifier for the invitation link
+    const invitationToken = "unique_token_here"; // Replace with actual token generation logic
+
+    // Compose the invitation link
+    const invitationLink = `https://your_organization/d_treat-invite-form?token=${invitationToken}`;
+
+    // Create a Nodemailer transporter using the doctor's email configuration
+    const transporter = nodemailer.createTransport({
+      host: "", 
+      service: 'Gmail',
+      port: 465,
+    secure: true,
+      auth: {
+        user: doctor.email, // Doctor's email address from the database
+        pass: doctor.password, // Doctor's password from the database (assuming you store it; adjust as per your schema design)
+      },
+    });
+    console.log("hddddddddddddddddddddd");
+    console.log(doctor.password)
+    console.log(doctor.email);
+
+    const hospitalAdmin =  new HospitalAdmin()  ;
+    // Compose the email
+    const mailOptions = {
+      from: hospitalAdmin.email, // Sender address as doctor's email from the database
+      to: doctor.email, // Doctor's email address (you can adjust this if needed)
+      subject: 'Invitation to join our organization on d_treat platform',
+      text: `Hello ${doctor.fullName},\n\nYou have been invited to join our organization on the d_treat platform. Please follow the link below to accept the invitation and fill out the form:\n\n${invitationLink}\n\nBest regards,\nThe Doctor Admin`,
+    };
+
+    // Send the email
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ', info.messageId);
+
+    // Save the invitation token in the doctor's record in the database (Optional)
+    doctor.invitationToken = invitationToken;
+    await doctor.save();
+
+    return res.status(200).json({ message: 'Invitation email sent successfully' });
+  }  catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'An error occurred while sending the invitation email' });
+  }
+};
+
+
+const login = async (req, res) => {
+  try {
+  const {email,password} = req.body;
+  const admin  = await  HospitalAdmin.findOne({ email: email, password: password});
+  if(!admin) {
+    return res.send("admin not found");
+  }
+  console.log(admin.password);
+  const passwordMatch = await bcryptjs.compare(password, admin.password,admin.password);
+  console.log(passwordMatch);
+  if(!passwordMatch) {
+    return res.send("incorrect password or email")
+  }
+
+  let token = jwt.sign({
+    _id: admin._id },
+    process.env.MY_TOKEN
+    );
+ res.cookie("userdata", admin.email, {
+      sameSite: true,
+      httpOnly: false,
+      maxAge: 24 * 60 * 60 * 1000
+    });
+    return res.send(token);
+  }catch (error) {
+    console.log(error);
   }
 }
 
-
 module.exports = {
   createHospitalAdmin,
+  updateHospitalAdmin,
   getAllHospitalAdmins,
   getHospitalAdminById,
-  updateHospitalAdmin,
-  deleteHospitalAdminById
+  deleteHospitalAdminById,
+  sendInvite,
+  login
 };
+

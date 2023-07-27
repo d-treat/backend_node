@@ -1,5 +1,5 @@
-const Doctor = require('../models/doctorSchema');
-const {validateDoctor} = require('../models/doctorSchema');
+// const Doctor = require('../models/doctorSchema');
+const {validateDoctor,Doctor} = require('../models/doctorSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
 const multer = require("multer");
 const upload = multer({ dest: "./dtreat_images" });
@@ -9,7 +9,9 @@ const path = require("path");
 const { result } = require("@hapi/joi/lib/base");
 let streamifier = require("streamifier");
 const { log } = require('console');
-
+const bcryptjs = require('bcryptjs');
+const jwt = require("jsonwebtoken")
+const cookie = require('cookie-parser')
 cloudinary.config({
   cloud_name: process.env.Cloud_Name,
   api_key: process.env.Api_Key,
@@ -63,7 +65,19 @@ const doctor = new Doctor({
       cv: result.url,
     });
 
+     console.log("before token");
+            let jwt = jwt.sign({_id:user_id},process.env.SECRET,{
+                expiresIn:"1h"
+            })
+
+    const salt  = await bcryptjs.genSalt(10);
+    doctor.password = await bcryptjs.hash(doctor.password,salt)
+
     await doctor.save();
+    res.cookie('doctordat',doctor.email)
+
+    
+    
 
     return res.status(201).json({ doctor });
   } catch (error) {
@@ -159,11 +173,39 @@ const deleteDoctor = async (req, res) => {
     return res.status(500).json({ error: 'An error occurred while deleting the doctor' });
   }
 };
+const login = async (req, res) => {
+  try {
+    const {email, password} = req.body;
+    const doctor  = await Doctor.findOne({ email: email, password: password});
+    if(!doctor) {
+      return res.send("doctor not found");
+    }
+   const passwordMatch = await bcryptjs.compare(password,doctor.password);
+   console.log(passwordMatch);
+   if(!passwordMatch) {
+    return  res.send("incorrect password");
+   }
+   let token = jwt.sign({
+    _id: doctor._id },
+    process.env.MY_TOKEN
+    );
+    res.cookie("doctor", user.email, {
+      sameSite: true,
+      httpOnly: false,
+      maxAge: 24 * 60 * 60 * 1000
+    });
+    return res.send(token);
+  }catch(error) {
+    console.log(error);
+  }
+  
+}
 
 module.exports = {
   createDoctor,
   updateDoctor,
   getDoctorById,
   getAllDoctors,
-  deleteDoctor
+  deleteDoctor,
+  login
 };
