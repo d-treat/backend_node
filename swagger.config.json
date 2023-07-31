@@ -1,0 +1,7 @@
+{
+    "projectName": "    D_treat",
+    "openApiVersion": "1.0",
+    "outFile": "./swagger/swagger.json",
+    "apiRoute": "/api-docs",
+    "format": "json"
+ }

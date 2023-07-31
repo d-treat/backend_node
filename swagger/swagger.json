@@ -1,0 +1,1865 @@
+{
+    "swagger": "1.0",
+    "info": {
+       "title": "D_treat",
+       "description": "D_treat API Documentation",
+       "termsOfService": "http://swagger.io/terms/",
+       "contact": {
+          "name": "API Support",
+          "url": "http://www.swagger.io/support",
+          "email": "support@swagger.io"
+       },
+       "license": {
+          "name": "Apache 2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+       },
+       "version": "1.0.0"
+    },
+    "host": "localhost:4040",
+    "basePath": "/",
+    "schemes": [
+       "http"
+    ],
+    "securityDefinitions": {
+       "Bearer": {
+          "type": "apiKey",
+          "name": "Authorization",
+          "in": "header"
+       }
+    },
+    "paths": {
+       "/address": {
+          "post": {
+             "tags": [
+                "address"
+             ],
+             "summary": "",
+             "description": "Create Address",
+             "parameters": [
+             {
+                "in": "body",
+                   "name": "body",
+                   "required": true,
+                   "schema": {
+                     "properties" : {
+                      "street": {
+                         "type": "string"
+                      },
+                      "city": {
+                         "type": "string"
+                      },
+                      "postalCode": {
+                         "type": "string"
+                      }
+                      ,
+                      "country": {
+                         "type": "string"
+                      }
+                     }
+                   }
+             }
+          ],
+             "consumes": [
+                "application/json"
+             ],
+             "produces": [
+                "application/json"
+             ],
+             "responses": {
+                "201": {
+                   "description": "Created",
+                   "schema": {
+                      "properties": {
+                         " ": {
+                            "type": "string"
+                         },
+                         "appointment": {
+                            "type": "object",
+                            "properties": {
+                               "appointmentName": {
+                                  "type": "string"
+                               },
+                               "appointmentTime": {
+                                  "type": "date"
+                               },
+                               "doctor1": {
+                                  "type": "string"
+                               },
+                               "doctor2": {
+                                "type": "string"
+                             }
+                            }
+                         }
+                      }
+                   }
+                },
+                "400": {
+                   "description": "Validation Error",
+                   "schema": {
+                      "properties": {
+                         "message": {
+                            "type": "string"
+                         }
+                      }
+                   }
+                },
+                "500": {
+                   "description": "Internal Server Error"
+                }
+             },
+             "security": [
+                {
+                   "Bearer": [
+                      "global"
+                   ]
+                }
+             ]
+          }
+       },
+       "/appointment/{id}": {
+          "delete": {
+             "tags": [
+                "appointment"
+             ],
+             "summary": "",
+             "description": "delete appointment",
+             "parameters": [
+                {
+                   "in": "path",
+                   "name": "id",
+                   "required": true,
+                   "type": "string"
+                }
+                
+             ],
+             "consumes": [
+                "application/json"
+             ],
+             "produces": [
+                "application/json"
+             ],
+             "responses": {
+                "200": {
+                   "description": "OK",
+                   "schema": {
+                      "type": "object",
+                      "properties": {
+                         "deleted": {
+                            "type": "boolean",
+                            "example": true
+                         }
+                      }
+                   }
+                },
+                "500": {
+                   "description": "Internal Server Error"
+                }
+             },
+             "security": [
+                {
+                   "Bearer": [
+                      "global"
+                   ]
+                }
+             ]
+          }
+       },
+       "/appointmen_update/{id}": {
+          "put": {
+             "tags": [
+                "appointment"
+             ],
+             "summary": "",
+             "description": "Update appointment fields",
+             "parameters": [
+                {
+                   "in": "path",
+                   "name": "id",
+                   "required": true,
+                   "type": "string"
+                },
+                
+                 {
+                     "in": "body",
+                     "name": "appointmentName",
+                     "required": true,
+                     "schema": {
+                         "type": "string"
+                     }
+                 },
+                 {
+                     "in": "body",
+                     "name": "appointmentTime",
+                     "required": true,
+                     "schema": {
+                         "type": "date"
+                     }
+                 },
+                 {
+                     "in": "body",
+                     "name": "doctor1",
+                     "required": true,
+                     "schema": {
+                         "type": "string"
+                     }
+                 },
+                 {
+                     "in": "body",
+                     "name": "doctor2",
+                     "required": true,
+                     "schema": {
+                         "type": "string"
+                     }
+                 }
+        
+             ],
+             "consumes": [
+                "application/json"
+             ],
+             "produces": [
+                "application/json"
+             ],
+             "responses": {
+                "200": {
+                   "description": "updated",
+                   "schema": {
+                      "properties": {
+                         "message": {
+                            "type": "string"
+                         },
+                         "appointment": {
+                            "type": "object",
+                            "properties": {
+                              "appointmentName": {
+                                "type": "string"
+                             },
+                             "appointmentTime": {
+                                "type": "date"
+                             },
+                             "doctor1": {
+                                "type": "string"
+                             },
+                             "doctor2": {
+                                "type": "string"
+                             }
+                            }
+                         }
+                      }
+                   }
+                },
+                "500": {
+                   "description": "Internal Server Error"
+                }
+             },
+             "security": [
+                {
+                   "Bearer": [
+                      "global"
+                   ]
+                }
+             ]
+          }
+       },
+      
+       "/appointments": {
+        "get": {
+           "tags": [
+              "appointments"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "array",
+                    "items": {
+                       "$ref": "#/definitions/appointment"
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+  
+       "/case": {
+        "post": {
+           "tags": [
+              "case"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": true,
+                    "schema": {
+                       "properties": {
+                          "name": {
+                             "type": "string"
+                          },
+                          "startDate": {
+                             "type": "date"
+                          },
+                          "endDate": {
+                             "type": "date"
+                          },
+                       "action":{
+                        "type":"string"
+                       },
+                       
+                        "status":{
+                            "type":"string"
+                        },
+                        "disease":{
+                            "type":"string"
+                       },
+                       "doctors":{
+                        "type":"string"
+                       },
+                       "patient":{
+                        "type":"string"
+                       }
+                    }
+              }
+            }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "properties": {
+                       "message": {
+                          "type": "string"
+                       },
+                       "user": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                               "type": "string"
+                            },
+                            "startDate": {
+                               "type": "date"
+                            },
+                            "endDate": {
+                               "type": "date"
+                            },
+                         "action":{
+                          "type":"string"
+                         },
+                         
+                          "status":{
+                              "type":"string"
+                          },
+                          "disease":{
+                              "type":"string"
+                         },
+                         "doctors":{
+                          "type":"string"
+                         },
+                         "patient":{
+                          "type":"string"
+                         }
+                      }
+                       }
+                    }
+                 }
+              },
+              "400": {
+                 "description" : "Incorrect Credentials"
+              },
+              "500": {
+                 "description": "Internal Server Error"
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+       "/case/{id}": {
+          "get": {
+             "tags": [
+                "case"
+             ],
+             "summary": "",
+             "description": "",
+             "parameters": [
+              {
+                 "in": "path",
+                 "name": "id",
+                 "required":true,
+                 "type":"string"
+              }
+             ],
+             "consumes": [
+                "application/json"
+             ],
+             "produces": [
+                "application/json"
+             ],
+             "responses": {
+                "200": {
+                   "description": "OK",
+                   "schema": {
+                    "properties": {
+                       "message": {
+                          "type": "string"
+                       },
+                       "product": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                           },
+                           "price": {
+                              "type": "number"
+                           },
+                           "category": {
+                              "type": "string"
+                           },
+                           "discount": {
+                              "type": "string"
+                           },
+                           "status": {
+                              "type": "number"
+                           },
+                           "picture": {
+                              "type": "string"
+                           }
+                          }
+                       }
+                    }
+                   }
+                },
+                "500": {
+                   "description": "Internal Server Error",
+                   "schema": {
+                      "type": "object",
+                      "properties": {
+                         "error": {
+                            "type": "string",
+                            "example": "Internal Server Error"
+                         }
+                      }
+                   }
+                },
+                "404": {
+                   "description": "Not found",
+                   "schema": {
+                      "type": "string"
+                   }
+                }
+             },
+             "security": [
+                {
+                   "Bearer": [
+                      "global"
+                   ]
+                }
+             ]
+          }
+       },
+       
+      
+       "/doctor": {
+          "post": {
+             "tags": [
+                "Message"
+             ],
+             "summary": "",
+             "description": "",
+             "parameters": [
+                {
+                   "in": "body",
+                   "name": "body",
+                   "required": true,
+                   "schema": {
+                     "properties" : {
+                      "name": {
+                         "type": "string"
+                      },
+                      "email": {
+                         "type": "string"
+                      },
+                      "subject": {
+                         "type": "string"
+                      }
+                      ,
+                      "category": {
+                         "type": "string"
+                      }
+                     }
+                   }
+                }
+             ],
+             "consumes": [
+                "application/json"
+             ],
+             "produces": [
+                "application/json"
+             ],
+             "responses": {
+                "201": {
+                   "description": "Created",
+                   "schema": {
+                      "properties" : {
+                         "message": {
+                            "type": "string"
+                         }
+                        }
+                   }
+                },
+                "500": {
+                   "description": "Internal Server Error"
+                }
+             },
+             "security": [
+                {
+                   "Bearer": [
+                      "global"
+                   ]
+                }
+             ]
+          }
+       },
+       "/wish": {
+          "post": {
+             "tags": [
+                "Wish"
+             ],
+             "summary": "",
+             "description": "",
+             "parameters": [
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": true,
+                 "schema": {
+                   "properties" : {
+                    "name": {
+                       "type": "string"
+                    },
+                    "price": {
+                       "type": "number"
+                    }
+                   }
+                 }
+              }
+           ],
+             "consumes": [
+                "application/json"
+             ],
+             "produces": [
+                "application/json"
+             ],
+             "responses": {
+                "201": {
+                   "description": "Created",
+                   "schema": {
+                      "properties": {
+                         "message": {
+                            "type": "string"
+                         }
+                      }
+                   }
+                },
+                "500": {
+                   "description": "Internal Server Error"
+                }
+             },
+             "security": [
+                {
+                   "Bearer": [
+                      "global"
+                   ]
+                }
+             ]
+          }
+       },
+       "/wishes": {
+        "get": {
+           "tags": [
+              "Wish"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "array",
+                    "items": {
+                       "$ref": "#/definitions/Wish"
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/wish/{id}": {
+        "get": {
+           "tags": [
+              "Wish"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [
+            {
+               "in": "path",
+               "name": "id",
+               "required":true,
+               "type":"string"
+            }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                  "properties": {
+                     "message": {
+                        "type": "string"
+                     },
+                     "product": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                         },
+                        
+                         "price": {
+                            "type": "number"
+                         }
+                        }
+                     }
+                  }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/wishs/{id}": {
+        "put": {
+           "tags": [
+              "Wish"
+           ],
+           "summary": "",
+           "description": "Update wish fields",
+           "parameters": [
+              {
+                 "in": "path",
+                 "name": "id",
+                 "required": true,
+                 "type": "string"
+              },
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": false,
+                 "schema": {
+                    "properties": {
+                       "name": {
+                          "type": "string"
+                       },
+                       "price": {
+                          "type": "number"
+                       }
+                      
+                    }
+                 }
+              }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "Created",
+                 "schema": {
+                    "properties": {
+                       
+                       "message": {
+                          "type": "object",
+                          "properties": {
+                             "name": {
+                                "type": "string"
+                             },
+                             "price": {
+                                "type": "number"
+                             }
+                          }
+                       }
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error"
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/wishes/{id}": {
+        "delete": {
+           "tags": [
+              "Wish"
+           ],
+           "summary": "",
+           "description": "delete wish",
+           "parameters": [
+              {
+                 "in": "path",
+                 "name": "id",
+                 "required": true,
+                 "type": "string"
+              },
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": true,
+                 "schema": {
+                    "properties": {
+                       "name": {
+                          "type": "string"
+                       },
+                       "price": {
+                          "type": "number"
+                       }
+                        
+                   
+                    }
+                 }
+              }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "deleted": {
+                          "type": "boolean",
+                          "example": true
+                       }
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error"
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+       "/cart": {
+          "post": {
+             "tags": [
+                "Cart"
+             ],
+             "summary": "",
+             "description": "",
+             "parameters": [
+              {
+                  "in": "formData",
+                  "name": "name",
+                  "required": true,
+                  "schema": {
+                      "type": "string"
+                  }
+              },
+              {
+                  "in": "formData",
+                  "name": "price",
+                  "required": true,
+                  "schema": {
+                      "type": "number"
+                  }
+              },
+              {
+                  "in": "formData",
+                  "name": "category",
+                  "required": true,
+                  "schema": {
+                      "type": "string"
+                  }
+              },
+              {
+                  "in": "formData",
+                  "name": "discount",
+                  "required": true,
+                  "schema": {
+                      "type": "string"
+                  }
+              },
+              {
+                  "in": "formData",
+                  "name": "status",
+                  "required": true,
+                  "schema": {
+                      "type": "string"
+                  }
+              },
+              {
+                 "in": "formData",
+                 "name": "picture",
+                 "required": true,
+                 "type": "file"
+             }
+          ],
+             "consumes": [
+                "application/json"
+             ],
+             "produces": [
+                "application/json"
+             ],
+             "responses": {
+                "201": {
+                   "description": "Created",
+                   "schema": {
+                      "properties" : {
+                        "name": {
+                          "type": "string"
+                       },
+                       "price": {
+                          "type": "number"
+                       },
+                       "category": {
+                          "type": "string"
+                       },
+                       "discount": {
+                          "type": "string"
+                       },
+                       "status": {
+                          "type": "number"
+                       },
+                       "picture": {
+                          "type": "string"
+                       }
+                        }
+                   }
+                },
+                "500": {
+                   "description": "Internal Server Error"
+                }
+             },
+             "security": [
+                {
+                   "Bearer": [
+                      "global"
+                   ]
+                }
+             ]
+          }
+       },
+       "/carts": {
+        "get": {
+           "tags": [
+              "Cart"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "array",
+                    "items": {
+                       "$ref": "#/definitions/Cart"
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/cart/{id}": {
+        "get": {
+           "tags": [
+              "Cart"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "array",
+                    "items": {
+                       "$ref": "#/definitions/Cart"
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/carts/{id}": {
+        "delete": {
+           "tags": [
+              "Cart"
+           ],
+           "summary": "",
+           "description": "delete cart",
+           "parameters": [
+              {
+                 "in": "path",
+                 "name": "id",
+                 "required": true,
+                 "type": "string"
+              },
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": true,
+                 "schema": {
+                    "properties": {
+                       "name": {
+                          "type": "string"
+                       },
+                       "price": {
+                          "type": "number"
+                       }
+                    }
+                 }
+              }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "deleted": {
+                          "type": "boolean",
+                          "example": true
+                       }
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error"
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/message/{id}": {
+        "get": {
+           "tags": [
+              "Message"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [
+            {
+               "in": "path",
+               "name": "id",
+               "required":true,
+               "type":"string"
+            }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                  "properties": {
+                     "message": {
+                        "type": "string"
+                     },
+                     "product": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                         },
+                        
+                         "email": {
+                            "type": "string"
+                         },
+                         "subject": {
+                            "type": "string"
+                         },
+                        "category": {
+                            "type": "string"
+                         }
+                        }
+                     }
+                  }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     
+     "/messages": {
+        "get": {
+           "tags": [
+              "Message"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "array",
+                    "items": {
+                       "$ref": "#/definitions/Message"
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/messages/{id}": {
+        "put": {
+           "tags": [
+              "Message"
+           ],
+           "summary": "",
+           "description": "Update message fields",
+           "parameters": [
+              {
+                 "in": "path",
+                 "name": "id",
+                 "required": true,
+                 "type": "string"
+              },
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": false,
+                 "schema": {
+                    "properties": {
+                       "name": {
+                          "type": "string"
+                       },
+                       "email": {
+                          "type": "string"
+                       },
+                        
+                     "subject": {
+                       "type": "string"
+                    },
+                       "category": {
+                          "type": "string"
+                       }
+                      
+                    }
+                 }
+              }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "Created",
+                 "schema": {
+                    "properties": {
+                       
+                       "message": {
+                          "type": "object",
+                          "properties": {
+                             "name": {
+                                "type": "string"
+                             },
+                             "email": {
+                                "type": "string"
+                             },
+                              
+                           "subject": {
+                             "type": "string"
+                          },
+                             "category": {
+                                "type": "string"
+                             }
+                          }
+                       }
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error"
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+  
+     "/messagess/{id}": {
+        "delete": {
+           "tags": [
+              "Message"
+           ],
+           "summary": "",
+           "description": "delete message",
+           "parameters": [
+              {
+                 "in": "path",
+                 "name": "id",
+                 "required": true,
+                 "type": "string"
+              },
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": true,
+                 "schema": {
+                    "properties": {
+                       "name": {
+                          "type": "string"
+                       },
+                       "email": {
+                          "type": "string"
+                       },
+                        
+                     "subject": {
+                       "type": "string"
+                    },
+                       "category": {
+                          "type": "string"
+                       }
+                    }
+                 }
+              }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "deleted": {
+                          "type": "boolean",
+                          "example": true
+                       }
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error"
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     
+     
+       
+       "/contact": {
+          "post": {
+             "tags": [
+                "Contact"
+             ],
+             "summary": "",
+             "description": "",
+             "parameters": [
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": true,
+                 "schema": {
+                   "properties" : {
+                    "name": {
+                       "type": "string"
+                    },
+                    "email": {
+                       "type": "string"
+                    },
+                    "subject": {
+                       "type": "string"
+                    }
+                    ,
+                    "category": {
+                       "type": "string"
+                    }
+                   }
+                 }
+              }
+           ],
+             "consumes": [
+                "application/json"
+             ],
+             "produces": [
+                "application/json"
+             ],
+             "responses": {
+                "201": {
+                   "description": "Created",
+                   "schema": {
+                      "$ref": "#/definitions/Groups"
+                   }
+                },
+                "500": {
+                   "description": "Internal Server Error"
+                }
+             },
+             "security": [
+                {
+                   "Bearer": [
+                      "global"
+                   ]
+                }
+             ]
+          }
+       },
+       "/contacts": {
+        "get": {
+           "tags": [
+              "Contact"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "array",
+                    "items": {
+                       "$ref": "#/definitions/Contact"
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/contact/{id}": {
+        "get": {
+           "tags": [
+              "Contact"
+           ],
+           "summary": "",
+           "description": "",
+           "parameters": [
+            {
+               "in": "path",
+               "name": "id",
+               "required":true,
+               "type":"string"
+            }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                  "properties": {
+                     "message": {
+                        "type": "string"
+                     },
+                     "contact": {
+                        "type": "object",
+                        "properties" : {
+                          "name": {
+                             "type": "string"
+                          },
+                          "email": {
+                             "type": "string"
+                          },
+                          "subject": {
+                             "type": "string"
+                          }
+                          ,
+                          "category": {
+                             "type": "string"
+                          }
+                         }
+                     }
+                  }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "error": {
+                          "type": "string",
+                          "example": "Internal Server Error"
+                       }
+                    }
+                 }
+              },
+              "404": {
+                 "description": "Not found",
+                 "schema": {
+                    "type": "string"
+                 }
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/contacts/{id}": {
+        "delete": {
+           "tags": [
+              "Contact"
+           ],
+           "summary": "",
+           "description": "delete contact",
+           "parameters": [
+              {
+                 "in": "path",
+                 "name": "id",
+                 "required": true,
+                 "type": "string"
+              },
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": true,
+                 "schema": {
+                    "properties": {
+                       "name": {
+                          "type": "string"
+                       }
+                    }
+                 }
+              }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "OK",
+                 "schema": {
+                    "type": "object",
+                    "properties": {
+                       "deleted": {
+                          "type": "boolean",
+                          "example": true
+                       }
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error"
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+     "/contactss/{id}": {
+        "put": {
+           "tags": [
+              "Contact"
+           ],
+           "summary": "",
+           "description": "Update contact fields",
+           "parameters": [
+              {
+                 "in": "path",
+                 "name": "id",
+                 "required": true,
+                 "type": "string"
+              },
+              {
+                 "in": "body",
+                 "name": "body",
+                 "required": false,
+                 "schema": {
+                    "properties" : {
+                       "name": {
+                          "type": "string"
+                       },
+                       "email": {
+                          "type": "string"
+                       },
+                       "subject": {
+                          "type": "string"
+                       }
+                       ,
+                       "category": {
+                          "type": "string"
+                       }
+                      }
+                 }
+              }
+           ],
+           "consumes": [
+              "application/json"
+           ],
+           "produces": [
+              "application/json"
+           ],
+           "responses": {
+              "200": {
+                 "description": "Created",
+                 "schema": {
+                    "properties": {
+                       
+                       "message": {
+                          "type": "object",
+                          "properties" : {
+                             "name": {
+                                "type": "string"
+                             },
+                             "email": {
+                                "type": "string"
+                             },
+                             "subject": {
+                                "type": "string"
+                             }
+                             ,
+                             "category": {
+                                "type": "string"
+                             }
+                            }
+                       }
+                    }
+                 }
+              },
+              "500": {
+                 "description": "Internal Server Error"
+              }
+           },
+           "security": [
+              {
+                 "Bearer": [
+                    "global"
+                 ]
+              }
+           ]
+        }
+     },
+    
+    "definitions": {
+       "Product": {
+          "properties": {
+            "name": {
+              "type": "string"
+           },
+           "price": {
+              "type": "number"
+           },
+           "category": {
+              "type": "string"
+           },
+           "discount": {
+              "type": "string"
+           },
+           "status": {
+              "type": "number"
+           },
+           "picture": {
+              "type": "string"
+           }
+          }
+       },
+       "Message": {
+          "properties": {
+            "name": {
+              "type": "string"
+           },
+           "email": {
+              "email": "string"
+           },
+           "subject": {
+              "type": "string"
+           }
+           ,
+           "category": {
+              "type": "string"
+           }
+          }
+       },
+       "Cart": {
+          "properties": {
+            "name": {
+              "type": "string"
+           },
+           "price": {
+              "type": "number"
+           },
+           "category": {
+              "type": "string"
+           },
+           "discount": {
+              "type": "string"
+           },
+           "status": {
+              "type": "number"
+           },
+           "picture": {
+              "type": "string"
+           }
+          }
+       },
+       "Contact": {
+          "properties": {
+            "name":{
+              "type":"string"
+            },
+            "email":{
+              "type":"string"
+            },
+            "category":{
+              "type":"string"
+            },
+            "subject":{
+              "type":"string"
+            }
+          }
+       },
+     "Wish": {
+      "properties": {
+        "name": {
+          "type": "string"
+       },
+       "price": {
+          "type": "number"
+       }
+      }
+   },
+   "Admin": {
+    "properties": {
+      "email": {
+        "type": "string"
+     },
+     "password": {
+        "type": "string"
+     }
+    }
+  }
+    }
+    }
+  }

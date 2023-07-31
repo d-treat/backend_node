@@ -14,6 +14,9 @@ const fs = require("fs");
 const path = require("path");
 dotenv.config();
 const fileupload  = require('express-fileupload')
+const  swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc')
+const SwaggerDocument = require('./swagger/swagger.json')
 
 // Import the route files
 const addressRoutes = require('./routes/addressRoutes');
@@ -26,6 +29,12 @@ const hospitalRoutes = require('./routes/hospitalRoutes');
 const imageRoutes = require('./routes/imageRoutes');
 
 
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(SwaggerDocument)
+);
 
 app.use(cors({
     
