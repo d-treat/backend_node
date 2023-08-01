@@ -1,5 +1,5 @@
 {
-    "swagger": "1.0",
+    "swagger": "2.0",
     "info": {
        "title": "D_treat",
        "description": "D_treat API Documentation",
@@ -508,34 +508,90 @@
        "/doctor": {
           "post": {
              "tags": [
-                "Message"
+                "Doctor"
              ],
              "summary": "",
              "description": "",
              "parameters": [
                 {
-                   "in": "body",
-                   "name": "body",
+                    "in": "formData",
+                    "name": "fullName", 
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "in": "formData",
+                    "name": "country",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "in": "formData",
+                    "name": "phoneNumber",
+                    "required": true,
+                    "schema": {
+                        "type": "number"
+                    }
+                },
+                {
+                    "in": "formData",
+                    "name": "organization",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "in": "formData",
+                    "name": "email",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "in": "formData",
+                    "name": "password",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "in": "formData",
+                    "name": "gender",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "in": "formData",
+                    "name": "speciality",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "in": "formData",
+                    "name": "description",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                   "in": "formData",
+                   "name": "cv",
                    "required": true,
-                   "schema": {
-                     "properties" : {
-                      "name": {
-                         "type": "string"
-                      },
-                      "email": {
-                         "type": "string"
-                      },
-                      "subject": {
-                         "type": "string"
-                      }
-                      ,
-                      "category": {
-                         "type": "string"
-                      }
-                     }
-                   }
-                }
-             ],
+                   "type": "file"
+               }
+            ],
              "consumes": [
                 "application/json"
              ],
@@ -566,29 +622,70 @@
              ]
           }
        },
-       "/wish": {
+       "/hospitalAdmin": {
           "post": {
              "tags": [
-                "Wish"
+                "hospitalAdmin"
              ],
              "summary": "",
              "description": "",
              "parameters": [
-              {
-                 "in": "body",
-                 "name": "body",
-                 "required": true,
-                 "schema": {
-                   "properties" : {
-                    "name": {
+               {
+                   "in": "formData",
+                   "name": "fullName", 
+                   "required": true,
+                   "schema": {
                        "type": "string"
-                    },
-                    "price": {
-                       "type": "number"
-                    }
                    }
-                 }
-              }
+               },
+               {
+                   "in": "formData",
+                   "name": "phoneNumber",
+                   "required": true,
+                   "schema": {
+                       "type": "number"
+                   }
+               },
+               {
+                   "in": "formData",
+                   "name": "email",
+                   "required": true,
+                   "schema": {
+                       "type": "string"
+                   }
+               },
+               {
+                   "in": "formData",
+                   "name": "message",
+                   "required": true,
+                   "schema": {
+                       "type": "string"
+                   }
+               },
+               {
+                   "in": "formData",
+                   "name": "proof",
+                   "required": true,
+                   "schema": {
+                       "type": "file"
+                   }
+               },
+               {
+                   "in": "formData",
+                   "name": "organization",
+                   "required": true,
+                   "schema": {
+                       "type": "string"
+                   }
+               },
+               {
+                   "in": "formData",
+                   "name": "password",
+                   "required": true,
+                   "schema": {
+                       "type": "string"
+                   }
+               }
            ],
              "consumes": [
                 "application/json"
@@ -620,10 +717,10 @@
              ]
           }
        },
-       "/wishes": {
+       "/doctors": {
         "get": {
            "tags": [
-              "Wish"
+              "Doctor"
            ],
            "summary": "",
            "description": "",
@@ -672,10 +769,10 @@
            ]
         }
      },
-     "/wish/{id}": {
+     "/doctor/{id}": {
         "get": {
            "tags": [
-              "Wish"
+              "Doctor"
            ],
            "summary": "",
            "description": "",
@@ -701,16 +798,20 @@
                      "message": {
                         "type": "string"
                      },
-                     "product": {
+                     "doctor": {
                         "type": "object",
                         "properties": {
-                          "name": {
+                          "fullName": {
                             "type": "string"
                          },
                         
-                         "price": {
+                         "phoneNumber": {
                             "type": "number"
-                         }
+                         },
+                         "email":{
+                           "type":"string"
+
+                         
                         }
                      }
                   }
@@ -744,37 +845,93 @@
            ]
         }
      },
-     "/wishs/{id}": {
+     "/doctor/{id}": {
         "put": {
            "tags": [
-              "Wish"
+              "Doctor"
            ],
            "summary": "",
-           "description": "Update wish fields",
+           "description": "Update doctor fields",
            "parameters": [
-              {
-                 "in": "path",
-                 "name": "id",
-                 "required": true,
-                 "type": "string"
-              },
-              {
-                 "in": "body",
-                 "name": "body",
-                 "required": false,
-                 "schema": {
-                    "properties": {
-                       "name": {
-                          "type": "string"
-                       },
-                       "price": {
-                          "type": "number"
-                       }
-                      
-                    }
-                 }
-              }
-           ],
+            {
+                "in": "formData",
+                "name": "fullName", 
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "country",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "phoneNumber",
+                "required": true,
+                "schema": {
+                    "type": "number"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "organization",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "email",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "password",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "gender",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "speciality",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "description",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+               "in": "formData",
+               "name": "cv",
+               "required": true,
+               "type": "file"
+           }
+        ],
            "consumes": [
               "application/json"
            ],
@@ -814,13 +971,13 @@
            ]
         }
      },
-     "/wishes/{id}": {
+     "/doctors/{id}": {
         "delete": {
            "tags": [
-              "Wish"
+              "Doctor"
            ],
            "summary": "",
-           "description": "delete wish",
+           "description": "delete Doctor",
            "parameters": [
               {
                  "in": "path",
@@ -834,10 +991,10 @@
                  "required": true,
                  "schema": {
                     "properties": {
-                       "name": {
+                       "fullName": {
                           "type": "string"
                        },
-                       "price": {
+                       "phoneNumber": {
                           "type": "number"
                        }
                         
@@ -878,61 +1035,33 @@
            ]
         }
      },
-       "/cart": {
+       "/hospital": {
           "post": {
              "tags": [
-                "Cart"
+                "hospitalSchema"
              ],
              "summary": "",
              "description": "",
              "parameters": [
-              {
-                  "in": "formData",
-                  "name": "name",
+               {
+                  "in": "body",
+                  "name": "body",
                   "required": true,
-                  "schema": {
-                      "type": "string"
-                  }
-              },
-              {
-                  "in": "formData",
-                  "name": "price",
-                  "required": true,
-                  "schema": {
-                      "type": "number"
-                  }
-              },
-              {
-                  "in": "formData",
-                  "name": "category",
-                  "required": true,
-                  "schema": {
-                      "type": "string"
-                  }
-              },
-              {
-                  "in": "formData",
-                  "name": "discount",
-                  "required": true,
-                  "schema": {
-                      "type": "string"
-                  }
-              },
-              {
-                  "in": "formData",
-                  "name": "status",
-                  "required": true,
-                  "schema": {
-                      "type": "string"
-                  }
-              },
-              {
-                 "in": "formData",
-                 "name": "picture",
-                 "required": true,
-                 "type": "file"
+                     "schema": {
+                        "properties": {
+                           "name": {
+                              "type": "string"
+                           },
+                           "country": {
+                              "type": "string"
+                           },
+                           "doctorNumber": {
+                              "type": "number"
+                           }
+                     }
+               }
              }
-          ],
+            ],
              "consumes": [
                 "application/json"
              ],
@@ -945,23 +1074,14 @@
                    "schema": {
                       "properties" : {
                         "name": {
-                          "type": "string"
-                       },
-                       "price": {
-                          "type": "number"
-                       },
-                       "category": {
-                          "type": "string"
-                       },
-                       "discount": {
-                          "type": "string"
-                       },
-                       "status": {
-                          "type": "number"
-                       },
-                       "picture": {
-                          "type": "string"
-                       }
+                           "type": "string"
+                        },
+                        "country": {
+                           "type": "string"
+                        },
+                        "doctorNumber": {
+                           "type": "number"
+                        }
                         }
                    }
                 },
@@ -978,7 +1098,7 @@
              ]
           }
        },
-       "/carts": {
+       "/hospitals": {
         "get": {
            "tags": [
               "Cart"
@@ -998,7 +1118,7 @@
                  "schema": {
                     "type": "array",
                     "items": {
-                       "$ref": "#/definitions/Cart"
+                       "$ref": "#/definitions/Hospital"
                     }
                  }
               },
@@ -1030,10 +1150,10 @@
            ]
         }
      },
-     "/cart/{id}": {
+     "/hospital/{id}": {
         "get": {
            "tags": [
-              "Cart"
+              "Hospital"
            ],
            "summary": "",
            "description": "",
@@ -1050,7 +1170,7 @@
                  "schema": {
                     "type": "array",
                     "items": {
-                       "$ref": "#/definitions/Cart"
+                       "$ref": "#/definitions/Hospital"
                     }
                  }
               },
@@ -1082,13 +1202,13 @@
            ]
         }
      },
-     "/carts/{id}": {
+     "/hospitals/{id}": {
         "delete": {
            "tags": [
-              "Cart"
+              "Hospital"
            ],
            "summary": "",
-           "description": "delete cart",
+           "description": "delete Hospital",
            "parameters": [
               {
                  "in": "path",
@@ -1105,7 +1225,7 @@
                        "name": {
                           "type": "string"
                        },
-                       "price": {
+                       "doctorNumber": {
                           "type": "number"
                        }
                     }
@@ -1144,10 +1264,10 @@
            ]
         }
      },
-     "/message/{id}": {
+     "/hospitalAdmin/{id}": {
         "get": {
            "tags": [
-              "Message"
+              "hospitalAdmin"
            ],
            "summary": "",
            "description": "",
@@ -1176,17 +1296,17 @@
                      "product": {
                         "type": "object",
                         "properties": {
-                          "name": {
+                          "fullName": {
                             "type": "string"
                          },
                         
                          "email": {
                             "type": "string"
                          },
-                         "subject": {
-                            "type": "string"
+                         "phoneNumber": {
+                            "type": "number"
                          },
-                        "category": {
+                        "organization": {
                             "type": "string"
                          }
                         }
@@ -1223,10 +1343,10 @@
         }
      },
      
-     "/messages": {
+     "/hospitalAdmin": {
         "get": {
            "tags": [
-              "Message"
+              "hospitalAdmin"
            ],
            "summary": "",
            "description": "",
@@ -1243,7 +1363,7 @@
                  "schema": {
                     "type": "array",
                     "items": {
-                       "$ref": "#/definitions/Message"
+                       "$ref": "#/definitions/HospitalAdmin"
                     }
                  }
               },
@@ -1275,13 +1395,13 @@
            ]
         }
      },
-     "/messages/{id}": {
+     "/HospitalAdmin/{id}": {
         "put": {
            "tags": [
-              "Message"
+              "HospitalAdmin"
            ],
            "summary": "",
-           "description": "Update message fields",
+           "description": "Update HospitalAdmin fields",
            "parameters": [
               {
                  "in": "path",
@@ -1295,18 +1415,18 @@
                  "required": false,
                  "schema": {
                     "properties": {
-                       "name": {
+                       "fullName": {
                           "type": "string"
                        },
                        "email": {
                           "type": "string"
                        },
                         
-                     "subject": {
+                     "organization": {
                        "type": "string"
                     },
-                       "category": {
-                          "type": "string"
+                       "phoneNumber": {
+                          "type": "number"
                        }
                       
                     }
@@ -1335,12 +1455,12 @@
                                 "type": "string"
                              },
                               
-                           "subject": {
-                             "type": "string"
-                          },
-                             "category": {
-                                "type": "string"
-                             }
+                             "organization": {
+                              "type": "string"
+                           },
+                              "phoneNumber": {
+                                 "type": "number"
+                              }
                           }
                        }
                     }
@@ -1360,13 +1480,13 @@
         }
      },
   
-     "/messagess/{id}": {
+     "/hospitaalAdmin/{id}": {
         "delete": {
            "tags": [
-              "Message"
+              "hospitalAdmin"
            ],
            "summary": "",
-           "description": "delete message",
+           "description": "delete HospitalAdmin",
            "parameters": [
               {
                  "in": "path",
@@ -1387,12 +1507,12 @@
                           "type": "string"
                        },
                         
-                     "subject": {
-                       "type": "string"
-                    },
-                       "category": {
-                          "type": "string"
-                       }
+                       "organization": {
+                        "type": "string"
+                     },
+                        "phoneNumber": {
+                           "type": "number"
+                        }
                     }
                  }
               }
@@ -1432,36 +1552,30 @@
      
      
        
-       "/contact": {
+       "/image": {
           "post": {
              "tags": [
-                "Contact"
+                "Image"
              ],
              "summary": "",
              "description": "",
              "parameters": [
-              {
-                 "in": "body",
-                 "name": "body",
-                 "required": true,
-                 "schema": {
-                   "properties" : {
-                    "name": {
+               {
+                   "in": "formData",
+                   "name": "imageName", 
+                   "required": true,
+                   "schema": {
                        "type": "string"
-                    },
-                    "email": {
-                       "type": "string"
-                    },
-                    "subject": {
-                       "type": "string"
-                    }
-                    ,
-                    "category": {
-                       "type": "string"
-                    }
                    }
-                 }
-              }
+               },
+               {
+                   "in": "formData",
+                   "name": "image",
+                   "required": true,
+                   "schema": {
+                       "type": "file"
+                   }
+               }
            ],
              "consumes": [
                 "application/json"
@@ -1473,7 +1587,7 @@
                 "201": {
                    "description": "Created",
                    "schema": {
-                      "$ref": "#/definitions/Groups"
+                      "$ref": "#/definitions/Image"
                    }
                 },
                 "500": {
@@ -1489,10 +1603,10 @@
              ]
           }
        },
-       "/contacts": {
+       "/images": {
         "get": {
            "tags": [
-              "Contact"
+              "Image"
            ],
            "summary": "",
            "description": "",
@@ -1509,7 +1623,7 @@
                  "schema": {
                     "type": "array",
                     "items": {
-                       "$ref": "#/definitions/Contact"
+                       "$ref": "#/definitions/Image"
                     }
                  }
               },
@@ -1541,10 +1655,10 @@
            ]
         }
      },
-     "/contact/{id}": {
+     "/image/{id}": {
         "get": {
            "tags": [
-              "Contact"
+              "Image"
            ],
            "summary": "",
            "description": "",
@@ -1570,22 +1684,15 @@
                      "message": {
                         "type": "string"
                      },
-                     "contact": {
+                     "image": {
                         "type": "object",
                         "properties" : {
-                          "name": {
+                          "imageName": {
                              "type": "string"
                           },
-                          "email": {
+                          "image": {
                              "type": "string"
-                          },
-                          "subject": {
-                             "type": "string"
-                          }
-                          ,
-                          "category": {
-                             "type": "string"
-                          }
+                          
                          }
                      }
                   }
@@ -1619,13 +1726,13 @@
            ]
         }
      },
-     "/contacts/{id}": {
+     "/images/{id}": {
         "delete": {
            "tags": [
-              "Contact"
+              "Image"
            ],
            "summary": "",
-           "description": "delete contact",
+           "description": "delete Image",
            "parameters": [
               {
                  "in": "path",
@@ -1639,7 +1746,7 @@
                  "required": true,
                  "schema": {
                     "properties": {
-                       "name": {
+                       "imageName": {
                           "type": "string"
                        }
                     }
@@ -1678,43 +1785,37 @@
            ]
         }
      },
-     "/contactss/{id}": {
+     "/image/{id}": {
         "put": {
            "tags": [
               "Contact"
            ],
            "summary": "",
-           "description": "Update contact fields",
+           "description": "Update Image fields",
            "parameters": [
-              {
-                 "in": "path",
-                 "name": "id",
-                 "required": true,
-                 "type": "string"
-              },
-              {
-                 "in": "body",
-                 "name": "body",
-                 "required": false,
-                 "schema": {
-                    "properties" : {
-                       "name": {
-                          "type": "string"
-                       },
-                       "email": {
-                          "type": "string"
-                       },
-                       "subject": {
-                          "type": "string"
-                       }
-                       ,
-                       "category": {
-                          "type": "string"
-                       }
-                      }
-                 }
-              }
-           ],
+            {
+               "in": "path",
+               "name": "id",
+               "required": true,
+               "type": "string"
+            },
+            {
+                "in": "formData",
+                "name": "imageName", 
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "in": "formData",
+                "name": "image",
+                "required": true,
+                "schema": {
+                    "type": "file"
+                }
+            }
+        ],
            "consumes": [
               "application/json"
            ],
@@ -1730,17 +1831,10 @@
                        "message": {
                           "type": "object",
                           "properties" : {
-                             "name": {
+                             "imageName": {
                                 "type": "string"
                              },
-                             "email": {
-                                "type": "string"
-                             },
-                             "subject": {
-                                "type": "string"
-                             }
-                             ,
-                             "category": {
+                             "image": {
                                 "type": "string"
                              }
                             }
@@ -1763,103 +1857,193 @@
      },
     
     "definitions": {
-       "Product": {
-          "properties": {
-            "name": {
-              "type": "string"
-           },
-           "price": {
-              "type": "number"
-           },
-           "category": {
-              "type": "string"
-           },
-           "discount": {
-              "type": "string"
-           },
-           "status": {
-              "type": "number"
-           },
-           "picture": {
-              "type": "string"
-           }
-          }
+       "Image": {
+          "properties" : {
+                             "imageName": {
+                                "type": "string"
+                             },
+                             "image": {
+                                "type": "string"
+                             }
+                            }
        },
-       "Message": {
-          "properties": {
+       "Hospital": {
+          "name": {
             "name": {
               "type": "string"
            },
-           "email": {
+           "country": {
               "email": "string"
            },
-           "subject": {
-              "type": "string"
+           "doctorNumber": {
+              "type": "number"
            }
-           ,
-           "category": {
-              "type": "string"
-           }
+           
           }
        },
-       "Cart": {
+       "HospitalAdmin": {
           "properties": {
-            "name": {
+            "fullName": {
               "type": "string"
            },
-           "price": {
+           "phoneNumber": {
               "type": "number"
            },
-           "category": {
+           "email": {
               "type": "string"
            },
-           "discount": {
+           "message": {
               "type": "string"
            },
-           "status": {
-              "type": "number"
-           },
-           "picture": {
+           "proof": {
               "type": "string"
-           }
+           },
+           "organization": {
+              "type": "string"
+           },
+           "password": {
+            "type": "string"
+         }
           }
        },
-       "Contact": {
+       "Doctor": {
           "properties": {
-            "name":{
+            "fullName":{
               "type":"string"
             },
+            "country":{
+              "type":"string"
+            },
+            "phoneNumber":{
+              "type":"number"
+            },
+            "organization":{
+              "type":"string"
+            }
+            ,
             "email":{
               "type":"string"
-            },
-            "category":{
+            }
+            ,
+            "password":{
               "type":"string"
-            },
-            "subject":{
+            }
+            ,
+            "gender":{
+              "type":"string"
+            }
+            ,
+            "speciality":{
+              "type":"string"
+            }
+            ,
+            "description":{
+              "type":"string"
+            }
+            ,
+            "cv":{
               "type":"string"
             }
           }
        },
-     "Wish": {
+     "contact": {
       "properties": {
-        "name": {
+        "firstName": {
           "type": "string"
        },
-       "price": {
+       "lastName": {
+          "type": "string"
+       }
+       ,
+       "email": {
+          "type": "string"
+       }
+       ,
+       "phoneNumber": {
           "type": "number"
+       }
+       ,
+       "message": {
+          "type": "string"
        }
       }
    },
-   "Admin": {
+   "Case": {
     "properties": {
-      "email": {
+      "fullName": {
         "type": "string"
      },
-     "password": {
+     "startDate": {
+        "type": "date"
+     }
+     ,
+     "endDate": {
+        "type": "date"
+     }
+     ,
+     "action": {
+        "type": "string"
+     }
+     ,
+     "status": {
+        "type": "string"
+     }
+     ,
+     "disease": {
+        "type": "string"
+     }
+     ,
+     "doctors": {
+        "type": "string"
+     },
+     
+     "patient": {
         "type": "string"
      }
     }
-  }
+  },
+  "Appointment": {
+   "properties": {
+     "appointmentName": {
+       "type": "string"
+    },
+    "appointmentTime": {
+       "type": "date"
+    }
+    ,
+    "doctor1": {
+       "type": "string"
+    }
+    ,
+    "doctor2": {
+       "type": "string"
+    }
+    
+   }
+ },
+ "Address": {
+   "properties": {
+     "street": {
+       "type": "string"
+    },
+    "city": {
+       "type": "string"
+    }
+    ,
+    "postalCode": {
+       "type": "string"
+    }
+    ,
+    "country": {
+       "type": "string"
+    }
+    
+   }
+ }
+
     }
     }
   }
+  
+}
+}
