@@ -1,6 +1,6 @@
-// const Doctor = require('../models/doctorSchema');
-const {validateDoctor,Doctor} = require('../models/doctorSchema');
-const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
+const Doctor = require('../models/doctorSchema');
+const { validateDoctor } = require('../models/doctorSchema');
+const cloudinary = require('cloudinary').v2;
 const multer = require("multer");
 const upload = multer({ dest: "./dtreat_images" });
 var type = upload.single("cv");
@@ -12,10 +12,11 @@ const { log } = require('console');
 const bcryptjs = require('bcryptjs');
 const jwt = require("jsonwebtoken")
 const cookie = require('cookie-parser')
+const passwordComplexity = require("joi-password-complexity");
 cloudinary.config({
   cloud_name: process.env.Cloud_Name,
   api_key: process.env.Api_Key,
-  api_secret:process.env.Api_Secret
+  api_secret: process.env.Api_Secret
 });
 
 let uploadFromBuffer = (req) => {
@@ -34,57 +35,52 @@ let uploadFromBuffer = (req) => {
     );
 
     streamifier
-      .createReadStream(req.files.cv.data) // Change this line to req.files.cv.data
+      .createReadStream(req.files.cv.data)
       .pipe(cld_upload_stream);
   });
 };
 
-
-
 const createDoctor = async (req, res) => {
-  // console.log(req);
   try {
-    const { error } = validateDoctor(req.body); // Validate the doctor object
+    const { error } = Doctor.validateDoctor(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details[0].message }); // Return the validation error if present
+      return res.status(400).json({ error: error.details[0].message });
     }
     const result = await uploadFromBuffer(req);
-      // console.log(result);
 
-    
-const doctor = new Doctor({
-      fullName:req.body.fullName,
-      country:req.body.country,
-      phoneNumber:req.body.phoneNumber,
-      organization:req.body.organization,
-      email:req.body.email,
-      password:req.body.password,
-      gender:req.body.gender,
-      speciality:req.body.speciality,
-      description:req.body.description,
+    const doctor = new Doctor({
+      fullName: req.body.fullName,
+      country: req.body.country,
+      phoneNumber: req.body.phoneNumber,
+      organization: req.body.organization,
+      email: req.body.email,
+      password: req.body.password,
+      gender: req.body.gender,
+      speciality: req.body.speciality,
+      description: req.body.description,
       cv: result.url,
     });
 
-     console.log("before token");
-            let jwt = jwt.sign({_id:user_id},process.env.SECRET,{
-                expiresIn:"1h"
-            })
+    console.log("before token");
+    let token = jwt.sign({ _id: doctor._id }, process.env.SECRET, {
+      expiresIn: "1h",
+    });
 
-    const salt  = await bcryptjs.genSalt(10);
-    doctor.password = await bcryptjs.hash(doctor.password,salt)
+    const salt = await bcryptjs.genSalt(10);
+    doctor.password = await bcryptjs.hash(doctor.password, salt);
 
     await doctor.save();
-    res.cookie('doctordat',doctor.email)
+    res.cookie('doctordata', doctor.email);
 
-    
-    
-
-    return res.status(201).json({ doctor });
+    return res.status(201).json({ doctor, token });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// Rest of your code...
+
 
 
 // Update a doctor

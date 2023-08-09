@@ -1,6 +1,5 @@
 const cloudinary = require('cloudinary').v2;
-// const Image = require('../models/ImageSchema');
-const {Image,validateImage} = require('../models/ImageSchema');
+const { Image, validateImage } = require('../models/ImageSchema'); // Import the Image model correctly
 const multer = require("multer");
 const upload = multer({ dest: "./dtreat_images" });
 const fs = require("fs");
@@ -38,26 +37,27 @@ cloudinary.config({
 // Create a new image
 const createImage = async (req, res) => {
   try {
-    const { error } = validateImage(req.body);
+    const { error } = validateImage(req.body); // Validate the parameters, not the body
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
 
-     const result = await uploadFromBuffer(req);
+    const result = await uploadFromBuffer(req);
 
     const newImage = new Image({
-      imageName:req.params.imageName,
-      image:result.url
+      imageName: req.body.imageName, // Use req.params to get the imageName
+      image: result.url,
     });
 
     await newImage.save();
 
-    return res.status(201).json({ image: newImage });
+    return res.status(201).json({ newImage });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ error: 'An error occurred while creating the image' });
   }
 };
+
 
 // Get all images
 const getAllImages = async (req, res) => {

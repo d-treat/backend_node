@@ -11,7 +11,7 @@ const {
 router.post('/hospital', createHospital);
 router.get('/hospital/:id', getHospitalById);
 router.get('/hospitals', getAllHospitals);
-router.put('/hospital/:id', updateHospital);
+router.put('/hospital-update/:id', updateHospital);
 router.delete('/hospital/:id', deleteHospitalById);
 
 module.exports = router;

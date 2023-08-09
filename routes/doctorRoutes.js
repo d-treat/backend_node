@@ -14,7 +14,7 @@ const {
 router.post('/doctor', createDoctor);
 router.get('/doctor/:id', getDoctorById);
 router.get('/doctors', getAllDoctors);
-router.put('/doctor/:id', updateDoctor);
+router.put('/doctor-update/:id', updateDoctor);
 router.delete('/doctor/:id', deleteDoctor);
 
 module.exports = router;

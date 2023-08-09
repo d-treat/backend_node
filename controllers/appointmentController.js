@@ -26,15 +26,18 @@ module.exports.createAppointment = async (req,res,next) => {
       }
   };
   module.exports.getAppointmentById = async (req, res) => {
-    console.log(req.params);
     try {
-      const appointment = await Appointment.findById(req.params.id);
+      console.log("Request params:", req.params);
+      const appointment = await Appointment.findById(req.params.id); // Use "appointmentId" instead of "id"
+      console.log("Retrieved appointment:", appointment);
       res.status(200).send(appointment);
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
       res.status(500).send("Internal Server Error");
     }
   };
+  
+  
   
   module.exports.getAllAppointment = async (req, res) => {
     try {

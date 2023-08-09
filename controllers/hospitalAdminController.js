@@ -13,6 +13,7 @@ const jwt = require("jsonwebtoken");
 const bcryptjs = require('bcryptjs')
 const cookie = require('cookie-parser');
 const { log } = require('console');
+var type = upload.single("proof");
 
 cloudinary.config({
   cloud_name: process.env.Cloud_Name,
@@ -57,20 +58,25 @@ const createHospitalAdmin = async (req, res) => {
       message:req.body.message,
       proof:result.url,
       organization:req.body.organization,
-      password:req.body.password
+      password:req.body.password,
+    
     });
     console.log("before token");
-            let jwt = jwt.sign({_id:user_id},process.env.SECRET,{
-                expiresIn:"1h"
-            })
+    let token = jwt.sign({ _id: hospitalAdmin._id }, process.env.SECRET, {
+      expiresIn: "1h",
+    });
     
     const salt  = await bcryptjs.genSalt(10)
     hospitalAdmin.password = await bcryptjs.hash(hospitalAdmin.password,salt)
+
     await hospitalAdmin.save();
-    res.cookie('userdata',hospitalAdmin.email)
-    return res.status(201).json({ hospitalAdmin });
+    res.cookie('admindata',hospitalAdmin.email)
+
+    return res.status(201).json({ hospitalAdmin,token });
+
   } catch (error) {
-    return res.status(500).json({ error: 'An error occurred while saving the hospital admin' });
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

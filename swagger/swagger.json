@@ -157,7 +157,7 @@
              ]
           }
        },
-       "/appointmen_update/{id}": {
+       "/appointment_update/{id}": {
           "put": {
              "tags": [
                 "appointment"
@@ -183,7 +183,7 @@
                    "properties": {
                      "appointmentTime": {
                        "type": "string",
-                       "format": "date-time",
+                       "format": "date",
                        "description": "New appointment time"
                      },
                      "appointmentDate": {
@@ -317,7 +317,7 @@
                          },
                          "appointmentTime": {
                            "type": "string",
-                           "format": "date-time"
+                           "format": "date"
                          },
                          "doctor1": {
                            "type": "string"
@@ -351,7 +351,7 @@
                             },
                             "appointmentTime": {
                               "type": "string",
-                              "format": "date-time"
+                              "format": "date"
                             },
                             "doctor1": {
                               "type": "string"
@@ -385,14 +385,14 @@
 
 
    
-      "/appointments/{appointmentId}": {
+      "/appointmentbyId/{id}": {
         "get": {
           "tags": ["appointment"],
           "summary": "Get appointment by ID",
           "description": "Retrieve details of a specific appointment by ID",
           "parameters": [
             {
-              "name": "appointmentId",
+              "name": "id",
               "in": "path",
               "description": "ID of the appointment",
               "required": true,
@@ -416,7 +416,7 @@
                          },
                          "appointmentTime": {
                            "type": "string",
-                           "format": "date-time"
+                           "format": "date"
                          },
                          "doctor1": {
                            "type": "string"
@@ -479,10 +479,13 @@
                              "type": "string"
                           },
                           "startDate": {
-                             "type": "date"
+                             "type": "string",
+                             "format":"date"
+                             
                           },
                           "endDate": {
-                             "type": "date"
+                           "type": "string",
+                           "format":"date"
                           },
                        "action":{
                         "type":"string"
@@ -495,7 +498,10 @@
                             "type":"string"
                        },
                        "doctors":{
-                        "type":"string"
+                        "type": "array",
+                        "items": {           
+                          "type": "string"
+                        }
                        },
                        "patient":{
                         "type":"string"
@@ -518,17 +524,19 @@
                        "message": {
                           "type": "string"
                        },
-                       "user": {
+                       "case": {
                           "type": "object",
                           "properties": {
                             "name": {
                                "type": "string"
                             },
                             "startDate": {
-                               "type": "date"
+                              "type": "string",
+                              "format":"date"
                             },
                             "endDate": {
-                               "type": "date"
+                              "type": "string",
+                              "format":"date"
                             },
                          "action":{
                           "type":"string"
@@ -541,7 +549,10 @@
                               "type":"string"
                          },
                          "doctors":{
-                          "type":"string"
+                           "type": "array",
+                           "items": {           
+                             "type": "string"
+                           }
                          },
                          "patient":{
                           "type":"string"
@@ -596,28 +607,41 @@
                        "message": {
                           "type": "string"
                        },
-                       "product": {
+                       "case": {
                           "type": "object",
                           "properties": {
-                            "name": {
+                           "name": {
                               "type": "string"
                            },
-                           "price": {
-                              "type": "number"
+                           "startDate": {
+                             "type": "string",
+                             "format":"date"
                            },
-                           "category": {
-                              "type": "string"
+                           "endDate": {
+                             "type": "string",
+                             "format":"date"
                            },
-                           "discount": {
-                              "type": "string"
-                           },
-                           "status": {
-                              "type": "number"
-                           },
-                           "picture": {
-                              "type": "string"
+                        "action":{
+                         "type":"string"
+                        },
+                        
+                         "status":{
+                             "type":"string"
+                         },
+                         "disease":{
+                             "type":"string"
+                        },
+                        "doctors":{
+                           "type": "array",
+                           "items": {           
+                             "type": "string"
                            }
-                          }
+                        },
+                        "patient":{
+                           "type": "string" 
+                        
+                        }
+                     }
                        }
                     }
                    }
@@ -726,10 +750,12 @@
                         "type": "string"
                      },
                      "startDate": {
-                        "type": "date"
+                        "type": "string",
+                        "format":"date"
                      },
                      "endDate": {
-                        "type": "date"
+                        "type": "string",
+                        "format":"date"
                      },
                   "action":{
                    "type":"string"
@@ -742,7 +768,10 @@
                        "type":"string"
                   },
                   "doctors":{
-                   "type":"string"
+                     "type": "array",
+                     "items": {           
+                       "type": "string"
+                     }
                   },
                   "patient":{
                    "type":"string"
@@ -766,10 +795,12 @@
                            "type": "string"
                         },
                         "startDate": {
-                           "type": "date"
+                           "type": "string",
+                           "format":"date"
                         },
                         "endDate": {
-                           "type": "date"
+                           "type": "string",
+                           "format":"date"
                         },
                      "action":{
                       "type":"string"
@@ -782,7 +813,10 @@
                           "type":"string"
                      },
                      "doctors":{
-                      "type":"string"
+                        "type": "array",
+                        "items": {           
+                          "type": "string"
+                        }
                      },
                      "patient":{
                       "type":"string"
@@ -908,7 +942,9 @@
                     "name": "password",
                     "required": true,
                     "schema": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "password"
+
                     }
                 },
                 {
@@ -916,7 +952,11 @@
                     "name": "gender",
                     "required": true,
                     "schema": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                           "male",
+                           "female","other"
+                        ]
                     }
                 },
                 {
@@ -1167,59 +1207,91 @@
       },
 
 
-
-      "/doctor/{id}": {
-         "get": {
-            "tags": [
-               "Doctor"
-            ],
-            "summary": "",
-            "description": "",
-            "parameters": [],
-            "consumes": [
-               "application/json"
-            ],
-            "produces": [
-               "application/json"
-            ],
-            "responses": {
-               "200": {
-                  "description": "OK",
-                  "schema": {
-                     "type": "array",
-                     "items": {
-                        "$ref": "#/definitions/Doctor"
+   "/doctor/{id}": {
+      "get": {
+         "tags": [
+            "Doctor"
+         ],
+         "summary": "",
+         "description": "",
+         "parameters": [
+          {
+             "in": "path",
+             "name": "id",
+             "required":true,
+             "type":"string"
+          }
+         ],
+         "consumes": [
+            "application/json"
+         ],
+         "produces": [
+            "application/json"
+         ],
+         "responses": {
+            "200": {
+               "description": "OK",
+               "schema": {
+                "properties": {
+                   "message": {
+                      "type": "string"
+                   },
+                   "Doctor": {
+                      "type": "object",
+                      "properties": {
+                       "fullName": {
+                          "type": "string"
+                       },
+                       "country": {
+                         "type": "string"
+                         
+                       },
+                       "email": {
+                         "type": "string"
+                       },
+                    "phoneNumber":{
+                     "type":"number"
+                    },
+                    
+                     "organization":{
+                         "type":"string"
+                     },
+                     "gender":{
+                         "type":"string"
+                    }
+                 }
+                   }
+                }
+               }
+            },
+            "500": {
+               "description": "Internal Server Error",
+               "schema": {
+                  "type": "object",
+                  "properties": {
+                     "error": {
+                        "type": "string",
+                        "example": "Internal Server Error"
                      }
-                  }
-               },
-               "500": {
-                  "description": "Internal Server Error",
-                  "schema": {
-                     "type": "object",
-                     "properties": {
-                        "error": {
-                           "type": "string",
-                           "example": "Internal Server Error"
-                        }
-                     }
-                  }
-               },
-               "404": {
-                  "description": "Not found",
-                  "schema": {
-                     "type": "string"
                   }
                }
             },
-            "security": [
-               {
-                  "Bearer": [
-                     "global"
-                  ]
+            "404": {
+               "description": "Not found",
+               "schema": {
+                  "type": "string"
                }
-            ]
-         }
-      },
+            }
+         },
+         "security": [
+            {
+               "Bearer": [
+                  "global"
+               ]
+            }
+         ]
+      }
+   },
        "/hospitalAdmin": {
           "post": {
              "tags": [
@@ -1260,14 +1332,12 @@
                        "type": "string"
                    }
                },
-               {
-                   "in": "formData",
-                   "name": "proof",
-                   "required": true,
-                   "schema": {
-                       "type": "file"
-                   }
-               },
+               {"in": "formData",
+               "name": "proof",
+               "required": true,
+               "type": "file"
+           },
+               
                {
                    "in": "formData",
                    "name": "organization",
@@ -1485,59 +1555,79 @@
            ]
         }
      },
+
+   
      "/hospital/{id}": {
-        "get": {
-           "tags": [
-              "Hospital"
-           ],
-           "summary": "",
-           "description": "",
-           "parameters": [],
-           "consumes": [
-              "application/json"
-           ],
-           "produces": [
-              "application/json"
-           ],
-           "responses": {
-              "200": {
-                 "description": "OK",
-                 "schema": {
-                    "type": "array",
-                    "items": {
-                       "$ref": "#/definitions/Hospital"
-                    }
-                 }
-              },
-              "500": {
-                 "description": "Internal Server Error",
-                 "schema": {
-                    "type": "object",
-                    "properties": {
-                       "error": {
-                          "type": "string",
-                          "example": "Internal Server Error"
-                       }
-                    }
-                 }
-              },
-              "404": {
-                 "description": "Not found",
-                 "schema": {
-                    "type": "string"
-                 }
+      "get": {
+        "tags": ["Hospital"],
+        "summary": "Get hospital by ID",
+        "description": "Retrieve details of a specific hospital by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the appointment",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Retrieve appointment details",
+            "schema": {
+             "properties": {
+                "message": {
+                   "type": "string"
+                },
+                "hospital": {
+                   "type": "object",
+                   "properties": {
+                     "name": {
+                        "type": "string"
+                     },
+                     "country": {
+                        "type": "string"
+                     },
+                     "doctorNumber": {
+                        "type": "number"
+                     }
+               }
+                }
+             }
+          }
+            
+          },
+          "404": {
+            "description": "Appointment not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Appointment not found"
+                }
               }
-           },
-           "security": [
-              {
-                 "Bearer": [
-                    "global"
-                 ]
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error"
+                }
               }
-           ]
-        }
-     },
-     "/hospitals/{id}": {
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+
+     "/hospital-delete/{id}": {
         "delete": {
            "tags": [
               "Hospital"
@@ -1684,6 +1774,8 @@
          ]
       }
    },
+
+
      "/hospitalAdmin/{id}": {
         "get": {
            "tags": [
@@ -1815,90 +1907,125 @@
            ]
         }
      },
-     "/HospitalAdmin/{id}": {
-        "put": {
-           "tags": [
-              "HospitalAdmin"
-           ],
-           "summary": "",
-           "description": "Update HospitalAdmin fields",
-           "parameters": [
-              {
-                 "in": "path",
-                 "name": "id",
-                 "required": true,
-                 "type": "string"
-              },
-              {
-                 "in": "body",
-                 "name": "body",
-                 "required": false,
-                 "schema": {
-                    "properties": {
-                       "fullName": {
-                          "type": "string"
-                       },
-                       "email": {
-                          "type": "string"
-                       },
-                        
-                     "organization": {
-                       "type": "string"
-                    },
-                       "phoneNumber": {
-                          "type": "number"
-                       }
-                      
-                    }
-                 }
-              }
-           ],
-           "consumes": [
-              "application/json"
-           ],
-           "produces": [
-              "application/json"
-           ],
-           "responses": {
-              "200": {
-                 "description": "Created",
-                 "schema": {
-                    "properties": {
-                       
-                       "message": {
-                          "type": "object",
-                          "properties": {
-                             "name": {
-                                "type": "string"
-                             },
-                             "email": {
-                                "type": "string"
-                             },
-                              
-                             "organization": {
-                              "type": "string"
-                           },
-                              "phoneNumber": {
-                                 "type": "number"
-                              }
-                          }
-                       }
-                    }
-                 }
-              },
-              "500": {
-                 "description": "Internal Server Error"
-              }
+     "/hospitalAdmin-update/{id}": {
+      "put": {
+         "tags": [
+            "HospitalAdmin"
+         ],
+         "summary": "Update hospitalAdmin fields",
+         "description": "Update the properties of  hospital Admin",
+         "parameters": [
+           {
+             "in": "path",
+             "name": "id",
+             "required": true,
+             "schema": {
+               "type": "string"
+             },
+             "description": "The ID of the hospitalAdmin to be updated"
            },
-           "security": [
-              {
-                 "Bearer": [
-                    "global"
-                 ]
-              }
-           ]
+           {
+            "in": "formData",
+            "name": "fullName", 
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+        },
+        {
+            "in": "formData",
+            "name": "phoneNumber",
+            "required": true,
+            "schema": {
+                "type": "number"
+            }
+        },
+        {
+            "in": "formData",
+            "name": "email",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+        },
+        {
+            "in": "formData",
+            "name": "message",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+        },
+        {"in": "formData",
+        "name": "proof",
+        "required": true,
+        "type": "file"
+    },
+        
+        {
+            "in": "formData",
+            "name": "organization",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+        },
+        {
+            "in": "formData",
+            "name": "password",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
         }
-     },
+         ],
+         "consumes": [
+            "application/json"
+         ],
+         "produces": [
+            "application/json"
+         ],
+         "responses": {
+            "200": {
+               "description": "updated",
+               "schema": {
+                  "properties": {
+                     "message": {
+                        "type": "string"
+                     },
+                     "doctor": {
+                        "type": "object",
+                        "properties": {
+                          "fullName": {
+                            "type": "string"
+                         },
+                         "email": {
+                            "type": "string"
+                         },
+                         "organization": {
+                            "type": "string"
+                         },
+                         "phoneNumber": {
+                            "type": "number"
+                         }
+                        }
+                     }
+                  }
+               }
+            },
+            "500": {
+               "description": "Internal Server Error"
+            }
+         },
+         "security": [
+            {
+               "Bearer": [
+                  "global"
+               ]
+            }
+         ]
+      }
+   },
   
      "/hospitalAdmin-delete/{id}": {
         "delete": {
@@ -1988,14 +2115,11 @@
                        "type": "string"
                    }
                },
-               {
-                   "in": "formData",
-                   "name": "image",
-                   "required": true,
-                   "schema": {
-                       "type": "file"
-                   }
-               }
+               {"in": "formData",
+        "name": "image",
+        "required": true,
+        "type": "file"
+    }
            ],
              "consumes": [
                 "application/json"
@@ -2439,7 +2563,7 @@
      },
      "appointmentTime": {
        "type": "string",
-       "format": "date-time"
+       "format": "date"
      },
      "doctor1": {
        "type": "string"

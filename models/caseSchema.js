@@ -46,7 +46,7 @@ const validateCase = (caseObj) => {
     endDate: Joi.date().required().label('endDate'),
     action: Joi.string().required().label('action'),
     status: Joi.string().required().valid('completed', 'uncompleted', 'inProgress').label('status'),
-    disease: Joi.array().items(Joi.string().required()).required().label('disease'),
+    disease: Joi.string().required().required().label('disease'),
     doctors: Joi.array().items(Joi.string().required()).required().label('doctors'),
     patient: Joi.string().required().label('patient')
   });
