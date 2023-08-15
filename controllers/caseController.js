@@ -1,6 +1,6 @@
 const {db} = require('../utils/database')
-const { Case } = require('../models/caseSchema');
-const {validateCase} = require("../models/caseSchema")
+const { Case } = require('../models/CaseSchema');
+const {validateCase} = require("../models/CaseSchema")
 
 
 module.exports.createCase = async (req, res, next) => {

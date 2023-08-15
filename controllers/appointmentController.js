@@ -1,6 +1,6 @@
 const {db} = require('../utils/database')
-const {Appointment} = require("../models/appointmentSchema")
-const {validateAppointment} = require("../models/appointmentSchema")
+const {Appointment} = require("../models/AppointmentSchema")
+const {validateAppointment} = require("../models/AppointmentSchema")
 
 
 module.exports.createAppointment = async (req,res,next) => {

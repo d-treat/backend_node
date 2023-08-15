@@ -1,5 +1,5 @@
-const Doctor = require('../models/doctorSchema');
-const { validateDoctor } = require('../models/doctorSchema');
+const Doctor = require('../models/DoctorSchema');
+const { validateDoctor } = require('../models/DoctorSchema');
 const cloudinary = require('cloudinary').v2;
 const multer = require("multer");
 const upload = multer({ dest: "./dtreat_images" });

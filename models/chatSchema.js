@@ -1,14 +1,16 @@
-import mongoose  from "mongoose"
-const chatSchema = new mongoose.Schema(
-    {
-        members:{
-            type:Array,
+import mongoose from "mongoose";
 
-        },
+const ChatSchema = new mongoose.Schema(
+  {
+    members: {
+      type: [{ type: String }],
+      default: [], // Set a default empty array for members
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-    },{
-        timestamps:true,
-    }
-)
-
-module.exports.ChatSchema = mongoose.model("chat",chatSchema)
+const ChatModel = mongoose.model("Chat", ChatSchema);
+export default ChatModel;

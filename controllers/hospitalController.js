@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Hospital, validateHospital } = require('../models/hospitalSchema');
+const { Hospital, validateHospital } = require('../models/HospitalSchema');
 
 
 // Save a new hospital

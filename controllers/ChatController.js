@@ -1,4 +1,4 @@
-import ChatModel from "../models/chatSchema";
+import ChatModel from "../models/ChatSchema.js";
 
 export const createChat = async (req, res) => {
   const newChat = new ChatModel({
@@ -12,7 +12,7 @@ export const createChat = async (req, res) => {
   }
 };
 
-export const userChats = async (req, res) => {
+export const groupChats = async (req, res) => {
   try {
     const chat = await ChatModel.find({
       members: { $in: [req.params.userId] },

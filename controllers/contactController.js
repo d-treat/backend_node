@@ -1,6 +1,6 @@
 const {db} = require('../utils/database')
-const {Contact} = require("../models/contactSchema")
-const {validateContact} = require("../models/contactSchema")
+const {Contact} = require("../models/ContactSchema")
+const {validateContact} = require("../models/ContactSchema")
 
 
 module.exports.createContact = async(req,res) => {

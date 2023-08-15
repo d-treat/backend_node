@@ -1,6 +1,6 @@
-const HospitalAdmin = require('../models/hospitalAdminSchema');
-const Doctor = require('../models/doctorSchema');
-const validateHospitalAdmin = require('../models/hospitalAdminSchema');
+const HospitalAdmin = require('../models/HospitalAdminSchema');
+const Doctor = require('../models/DoctorSchema');
+const validateHospitalAdmin = require('../models/HospitalAdminSchema');
 const cloudinary = require('cloudinary').v2; // Assuming you have cloudinary package installed
 const multer = require("multer");
 const upload = multer({ dest: "./dtreat_images" });
