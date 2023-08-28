@@ -4,10 +4,6 @@ const Organization = new mongoose.Schema({
         type: String,
         required: true
     },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Admin"
-    }
 });
 
 export default mongoose.model("Organization", Organization);
