@@ -9,6 +9,7 @@ import userRouter from "./modules/user/userRouter";
 import { dbConnection } from "./utils/dbConnection";
 import isAuthenticated from "./middlewares/auth";
 import partnershipRequestRouter from "./modules/partnershipRequests/partnershipRequestRouter";
+import filesRouter from "./modules/files/filesRouter";
 const PORT = process.env.PORT || 8000;
 
 const app = express();
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/user", isAuthenticated, userRouter);
 app.use("/requests", partnershipRequestRouter);
+app.use("/files", filesRouter);
 
 app.get("/", (req, res) => {
     res.send("Hello world");
