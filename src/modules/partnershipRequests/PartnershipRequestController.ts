@@ -33,7 +33,7 @@ export const createRequest = async (req: Request, res: Response) => {
         });
 
         return res.status(201).json({
-            success:true,
+            success: true,
             message: "Request created successfully",
             request
         });
@@ -48,8 +48,7 @@ export const createRequest = async (req: Request, res: Response) => {
 
 export const getAllRequests = async (req: Request, res: Response) => {
     try {
-        const requests = await PartnershipRequest.find({});
-
+        const requests = await PartnershipRequest.find({}).populate("proofOfOwnership");
         return res.status(200).json({
             message: "Requests fetched successfully",
             requests
@@ -93,14 +92,15 @@ export const approveRequest = async (req: Request, res: Response) => {
             organization: organization._id
         });
 
-
         return res.status(200).json({
+            success: true,
             message: "Request approved successfully",
             request
         });
 
     } catch (error) {
         return res.status(500).json({
+            success: true,
             message: "Something went wrong",
             error
         });
