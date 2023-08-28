@@ -7,24 +7,24 @@ import Admin from "../../models/Admin";
 export const createRequest = async (req: Request, res: Response) => {
 
     try {
-        const { fileId, fullNmae, email, phoneNumber, address, organization, message } = req.body;
+        const { fileId, fullNames, email, phoneNumber, address, organization, message } = req.body;
 
-        if (!fileId || !fullNmae || !email || !phoneNumber || !address || !organization || !message) return res.status(400).json({
+        if (!fileId || !fullNames || !email || !phoneNumber || !address || !organization || !message) return res.status(400).json({
             message: "Please fill all fields",
             missingFields: {
                 fileId: !fileId,
-                fullNmae: !fullNmae,
+                fullName: !fullNames,
                 email: !email,
                 phoneNumber: !phoneNumber,
                 address: !address,
                 organization: !organization,
-                message: !message
+                message: !message,
             }
         });
 
         const request = await PartnershipRequest.create({
             proofOfOwnership: fileId,
-            fullName: fullNmae,
+            fullName: fullNames,
             email,
             phoneNumber,
             address,
@@ -33,6 +33,7 @@ export const createRequest = async (req: Request, res: Response) => {
         });
 
         return res.status(201).json({
+            success:true,
             message: "Request created successfully",
             request
         });

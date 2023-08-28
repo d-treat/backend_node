@@ -13,7 +13,7 @@ const Admin = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: {
+    address: { 
         type: String,
         required: true
     },

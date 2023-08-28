@@ -5,11 +5,10 @@ import bodyParser = require("body-parser");
 import cookieParser = require("cookie-parser");
 import authRouter from "./modules/auth/authRouter";
 
+import filesRouter from "./modules/files/filesRouter";
+import partnershipRequestRouter from "./modules/partnershipRequests/partnershipRequestRouter";
 import userRouter from "./modules/user/userRouter";
 import { dbConnection } from "./utils/dbConnection";
-import isAuthenticated from "./middlewares/auth";
-import partnershipRequestRouter from "./modules/partnershipRequests/partnershipRequestRouter";
-import filesRouter from "./modules/files/filesRouter";
 const PORT = process.env.PORT || 8000;
 
 const app = express();
@@ -46,7 +45,7 @@ app.use((req, res, next) => {
 
 // router middlewares
 app.use("/auth", authRouter);
-app.use("/user", isAuthenticated, userRouter);
+app.use("/user", userRouter);
 app.use("/requests", partnershipRequestRouter);
 app.use("/files", filesRouter);
 

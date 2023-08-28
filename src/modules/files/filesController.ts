@@ -29,7 +29,7 @@ export const uploadFile = async (req: any, res: Response) => {
                 filename: file.originalname,
             });
             await fileToSave.save();
-            res.status(201).json({ message: 'success', file: fileToSave });
+            res.status(201).json({ success: true, file: fileToSave });
         });
 
         uploadStream.on('error', (error) => {

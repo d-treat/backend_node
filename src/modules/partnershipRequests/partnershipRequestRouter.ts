@@ -8,8 +8,8 @@ import {
 } from "./PartnershipRequestController"
 const partnershipRequestRouter = express.Router();
 
-partnershipRequestRouter.post("/create", createRequest);
-partnershipRequestRouter.get("/all", getAllRequests);
+partnershipRequestRouter.post("/", createRequest);
+partnershipRequestRouter.get("/", getAllRequests);
 partnershipRequestRouter.put("/approve/:requestId", approveRequest);
 partnershipRequestRouter.put('/reject/:requestId', rejectRequest);
 
