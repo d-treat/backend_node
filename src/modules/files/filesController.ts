@@ -47,20 +47,11 @@ export const uploadFile = async (req: any, res: Response) => {
 
 export const deleteFile = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { user } = req.query;
 
     try {
         if (!id) {
             return res.status(400).json({ message: 'Bad request' });
         }
-        if (!user || user === 'undefined') {
-            return res.status(400).json({ message: 'Bad request' });
-        }
-        const dbUser = await User.findById(user);
-        if (!dbUser) {
-            return res.status(400).json({ message: 'User not found' });
-        }
-
 
         // Delete the file from the MongoDB collection
         const deletedFile = await File.findByIdAndDelete(id);
@@ -80,3 +71,27 @@ export const deleteFile = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const getFile = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+        if (!id) {
+            return res.status(400).json({ message: 'Bad request' });
+        }
+
+        const file = await File.findById(id);
+
+        if (!file) {
+            return res.status(404).json({ message: 'File not found' });
+        }
+
+        // Read the file from the GridFS store
+        const gridFSBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db);
+        const downloadStream = gridFSBucket.openDownloadStream(file._id);
+        downloadStream.pipe(res);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
