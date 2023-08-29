@@ -8,6 +8,9 @@ import cookieParser = require("cookie-parser");
 import filesRouter from "./modules/files/filesRouter";
 import partnershipRequestRouter from "./modules/partnershipRequests/partnershipRequestRouter";
 import { dbConnection } from "./utils/dbConnection";
+import doctorsRouter from "./modules/doctors/doctorsRouter";
+import authRouter from "./modules/auth/authRouter";
+import adminRouter from "./modules/admin/adminRouter";
 const PORT = process.env.PORT || 8000;
 
 const app = express();
@@ -47,6 +50,9 @@ app.use((req, res, next) => {
 // app.use("/user", userRouter);
 app.use("/requests", partnershipRequestRouter);
 app.use("/files", filesRouter);
+app.use("/doctors", doctorsRouter);
+app.use("/auth", authRouter);
+app.use("/admin", adminRouter);
 
 app.get("/", (req, res) => {
     res.send("Hello world");
