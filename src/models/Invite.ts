@@ -12,6 +12,10 @@ const Invite = new mongoose.Schema({
     invitedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Admin"
+    },
+    organization:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Organization"
     }
 }, {
     timestamps: true

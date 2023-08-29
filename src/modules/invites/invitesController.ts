@@ -26,7 +26,8 @@ export const createInvite = async (req: Request, res: Response) => {
         const invite = await Invite.create({
             email,
             name,
-            invitedBy
+            invitedBy,
+            organization: invitedByAdmin.organization
         });
 
         const organization = await Organization.findById(invitedByAdmin.organization);
@@ -37,7 +38,7 @@ export const createInvite = async (req: Request, res: Response) => {
             html: `
                 <h1>Hi ${name}</h1>
                 <p>You have been invited to join the team  ${organization?.name}</p>
-                <p>Click <a href="https://www.google.com">here</a> to accept the invitation</p>
+                <p>Click <a href="${process.env.FRONTEND_URL}/doctor/register?invite=${invite._id}">here</a> to accept the invitation</p>
                 `
         });
 
@@ -62,3 +63,29 @@ export const createInvite = async (req: Request, res: Response) => {
 }
 
 
+
+export const getInvite = async (req: Request, res: Response) => {
+    try {
+        const { inviteId } = req.params;
+
+        if (!inviteId) return res.status(400).json({
+            message: "Please provide invite id"
+        });
+
+        const invite = await Invite.findById(inviteId).populate("organization");
+
+        if (!invite) return res.status(404).json({
+            message: "Invite not found"
+        });
+
+        return res.status(200).json({
+            message: "Invite fetched successfully",
+            invite
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal server error",
+        })
+    }
+}
