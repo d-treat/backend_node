@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import PartnershipRequest from "../../models/PartnershipRequest";
 import Organization from "../../models/Organization";
 import Admin from "../../models/Admin";
+import { sendEmail } from "../../utils/nodemailer";
 
 
 export const createRequest = async (req: Request, res: Response) => {
@@ -48,7 +49,7 @@ export const createRequest = async (req: Request, res: Response) => {
 
 export const getAllRequests = async (req: Request, res: Response) => {
     try {
-        const requests = await PartnershipRequest.find({}).populate("proofOfOwnership");
+        const requests = await PartnershipRequest.find({ status: "pending" }).populate("proofOfOwnership");
         return res.status(200).json({
             message: "Requests fetched successfully",
             requests
@@ -90,6 +91,16 @@ export const approveRequest = async (req: Request, res: Response) => {
             address: request.address,
             proofOfOwnership: request.proofOfOwnership,
             organization: organization._id
+        });
+
+        await sendEmail({
+            to: request.email,
+            subject: "Partnership Request Approved",
+            html: `
+                <p>Dear ${request.fullName},</p>
+                <p>Your partnership request has been approved. You can now login to your account and start using our services.</p>
+                <p>Thank you for choosing us.</p>
+            `
         });
 
         return res.status(200).json({

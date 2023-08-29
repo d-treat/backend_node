@@ -1,4 +1,4 @@
-import nodemailer =require("nodemailer");
+import nodemailer = require("nodemailer");
 
 interface IResponse {
   error?: string;
@@ -6,8 +6,15 @@ interface IResponse {
 }
 
 export const sendEmail = async (
-  to: string,
-  verificationCode: string
+  {
+    to,
+    subject,
+    html,
+  }: {
+    to: string,
+    subject: string,
+    html: string,
+  }
 ): Promise<IResponse> => {
   let sent: boolean = false;
   let error: string | undefined = undefined;
@@ -26,21 +33,14 @@ export const sendEmail = async (
     const mailOptions = {
       from: process.env.EMAIL,
       to,
-      subject: "Your smstippers Verification Code",
-      html: `
-        <div style="text-align: center; font-size: 20px; font-weight: bold;">
-          Your Verification Code:
-        </div>
-        <div style="text-align: center; font-size: 30px; margin-top: 10px;">
-          ${verificationCode}
-        </div>
-      `,
+      subject: subject,
+      html: html,
     };
 
     await transporter.sendMail(mailOptions);
     console.log("Email sent");
     sent = true;
-  } catch (err:any) {
+  } catch (err: any) {
     console.log(err);
     error = err;
   }

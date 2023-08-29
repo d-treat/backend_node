@@ -3,11 +3,10 @@ import express = require("express");
 import cors = require("cors");
 import bodyParser = require("body-parser");
 import cookieParser = require("cookie-parser");
-import authRouter from "./modules/auth/authRouter";
+// import authRouter from "./modules/auth/authRouter";
 
 import filesRouter from "./modules/files/filesRouter";
 import partnershipRequestRouter from "./modules/partnershipRequests/partnershipRequestRouter";
-import userRouter from "./modules/user/userRouter";
 import { dbConnection } from "./utils/dbConnection";
 const PORT = process.env.PORT || 8000;
 
@@ -44,8 +43,8 @@ app.use((req, res, next) => {
 });
 
 // router middlewares
-app.use("/auth", authRouter);
-app.use("/user", userRouter);
+// app.use("/auth", authRouter);
+// app.use("/user", userRouter);
 app.use("/requests", partnershipRequestRouter);
 app.use("/files", filesRouter);
 

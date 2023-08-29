@@ -1,9 +1,8 @@
+import { Request, Response } from "express";
+import { ObjectId } from 'mongodb';
 import File from "../../models/File";
 import fs = require("fs");
-import { ObjectId } from 'mongodb';
 import mongoose = require("mongoose");
-import { Request, Response } from "express";
-import User from "../user/userModel";
 
 
 export const uploadFile = async (req: any, res: Response) => {
