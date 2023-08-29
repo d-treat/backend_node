@@ -90,7 +90,8 @@ export const approveRequest = async (req: Request, res: Response) => {
             phoneNumber: request.phoneNumber,
             address: request.address,
             proofOfOwnership: request.proofOfOwnership,
-            organization: organization._id
+            organization: organization._id,
+            password: "dtreatadmin"
         });
 
         const emailContent = `
@@ -160,7 +161,7 @@ export const approveRequest = async (req: Request, res: Response) => {
             <defs>
                 <filter id="filter0_dd_656_499" x="0.308594" y="0.443726" width="108.297" height="109.274" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
                     <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAl pha" />
                     <feOffset dy="10" />
                     <feGaussianBlur stdDeviation="5" />
                     <feColorMatrix type="matrix" values="0 0 0 0 0.129412 0 0 0 0 0.552941 0 0 0 0 0.509804 0 0 0 0.25 0" />
@@ -178,6 +179,11 @@ export const approveRequest = async (req: Request, res: Response) => {
             <div class="header">Partnership Approved</div>
             <p>Dear <span class="brand-color">${request.fullName}</span>,</p>
             <p class="message">Your partnership request has been approved. You can now login to your account and start using our services.</p>
+            <p >your login details are:</p>
+            <p>email: <span class="brand-color">${request.email}</span></p>
+            <p>password: <span class="brand-color">dtreatadmin</span></p>
+            <p class="message">Click the button below to login.</p>
+            <a href="${process.env.FRONTEND_URL}/login" style="display: block; text-align: center; margin-bottom: 20px; color: #218D82; text-decoration: none;">Login</a>
             <p class="message">Thank you for choosing <span class="brand-color">d-treat</span>.</p>
             <p class="signature">Best regards,<br/>The d-treat Team</p>
         </div>
@@ -195,7 +201,6 @@ export const approveRequest = async (req: Request, res: Response) => {
             message: "Something went wrong",
             error
         });
-
 
         return res.status(200).json({
             success: true,
