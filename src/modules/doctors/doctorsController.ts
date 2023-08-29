@@ -4,8 +4,6 @@ import Doctor from '../../models/Doctor';
 export const createDoctor = async (req: Request, res: Response) => {
     try {
         const { fullName, email, phoneNumber, organization, bio, cv, specialization, gender, password } = req.body;
-
-
         const doctor = await Doctor.create({
             fullName,
             email,
@@ -16,7 +14,7 @@ export const createDoctor = async (req: Request, res: Response) => {
             specialization,
             gender,
             password
-        });
+    });
 
         return res.status(201).json({
             success: true,
@@ -30,3 +28,5 @@ export const createDoctor = async (req: Request, res: Response) => {
         });
     }
 }
+
+

@@ -32,14 +32,67 @@ export const createInvite = async (req: Request, res: Response) => {
 
         const organization = await Organization.findById(invitedByAdmin.organization);
 
+        const emailContent = `
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                color: #2B4360;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                width: 100%;
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #EAEAEA;
+                background-color: #F7F7F7;
+            }
+            .header {
+                text-align: center;
+                color: #218D82;
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .message {
+                font-size: 16px;
+                line-height: 1.5;
+                margin-bottom: 20px;
+            }
+            .cta-button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #218D82;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+            .signature {
+                text-align: center;
+                font-style: italic;
+                color: #888888;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">Invitation to Join the Team</div>
+            <h1>Hi ${name},</h1>
+            <p>You have been invited to join the team <span class="brand-color">${organization?.name}</span>.</p>
+            <p class="message">Click <a class="cta-button" href="${process.env.FRONTEND_URL}/doctor/register?invite=${invite._id}">here</a> to accept the invitation.</p>
+            <p class="signature">Best regards,<br/>The d-treat Team</p>
+        </div>
+    </body>
+    </html>
+`;
+
+
         const { error, sent } = await sendEmail({
             to: email,
             subject: "Invitation to join the team",
-            html: `
-                <h1>Hi ${name}</h1>
-                <p>You have been invited to join the team  ${organization?.name}</p>
-                <p>Click <a href="${process.env.FRONTEND_URL}/doctor/register?invite=${invite._id}">here</a> to accept the invitation</p>
-                `
+            html: emailContent
         });
 
         if (error) return res.status(500).json({
