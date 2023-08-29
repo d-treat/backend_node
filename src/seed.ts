@@ -18,7 +18,7 @@ export const seedDoctor = async(req,res) => {
         password: "doctor123"
     }).then((doctor) => {
         console.log(doctor);
-    }
+    } 
     ).catch((err) => {
         console.log(err);
     }
