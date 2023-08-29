@@ -185,11 +185,17 @@ export const approveRequest = async (req: Request, res: Response) => {
     </html>
 `;
 
-        await sendEmail({
+        const { error, sent } = await sendEmail({
             to: request.email,
             subject: "Partnership Request Approved",
             html: emailContent
         });
+
+        if (error) return res.status(500).json({
+            message: "Something went wrong",
+            error
+        });
+
 
         return res.status(200).json({
             success: true,
